@@ -1,81 +1,191 @@
 ﻿
-Imports System.Net.Mime.MediaTypeNames
-
 Public Class Form1
+
+    Private isPenMode As Boolean = False
+    Private isTextMode As Boolean = False
+    Private isEraseMode As Boolean = False
+
+    Private lineWeight As Integer = 7
+    Private lineColor As Color = Color.Black
+
+    Private textSize As Integer = 12
+    Private textFont As String = "Arial"
+    Private textColor As Color = Color.Black
 
     Private isDragging As Boolean = False
     Private isEditingEndPoint As Boolean = False
     Private isEditingStartPoint As Boolean = False
     Private selectedArrowIndex As Integer = -1
+    Private selectedTextIndex As Integer = -1
     Private startPoint As Point
     Private endPoint As Point
     Private textPosition As Point
-    Private selectedTextIndex As Integer = -1
+
     Private image As Bitmap
     Private arrows As New List(Of DrawArrow)
     Private texts As New List(Of DrawText)
-    Private Const ClickThreshold As Integer = 10
-
-    Private isDraggingText As Boolean = False
-    Private clickedTextIndex As Integer = -1
-    Private clickedLocation As Point
 
     Public Structure DrawArrow
         Public StartPoint As Point
         Public EndPoint As Point
+        Public LineWeight As Integer
+        Public LineColor As Color
     End Structure
 
     Public Structure DrawText
         Public Position As Point
         Public Content As String
+        Public TextSize As Integer
+        Public Font As String
+        Public Color As Color
     End Structure
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         image = New Bitmap("image.jpg")
+        ComboBox1.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15})
+        ComboBox2.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25})
+        ComboBox1.SelectedIndex = 6
+        ComboBox2.SelectedIndex = 12
+        lineWeight = CInt(ComboBox1.SelectedItem)
+        textSize = CInt(ComboBox2.SelectedItem)
         PictureBox1.Image = image
     End Sub
 
     Private Sub PictureBox1_MouseDown(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseDown
-        If e.Button = MouseButtons.Left Then
-            selectedArrowIndex = GetSelectedArrowIndex(e.Location)
-            selectedTextIndex = GetSelectedTextIndex(e.Location)
-            If selectedArrowIndex >= 0 Then
-                Dim arrow = arrows(selectedArrowIndex)
-                If IsNearPoint(e.Location, arrow.StartPoint) Then
-                    isEditingStartPoint = True
-                ElseIf IsNearPoint(e.Location, arrow.EndPoint) Then
-                    isEditingEndPoint = True
+
+        If isPenMode = True Then
+
+            If e.Button = MouseButtons.Left Then
+                selectedArrowIndex = GetSelectedArrowIndex(ConvertMouseToImageCoords(e.Location))
+                If selectedArrowIndex >= 0 Then
+                    Dim arrow = arrows(selectedArrowIndex)
+                    If IsNearPoint(ConvertMouseToImageCoords(e.Location), arrow.StartPoint) Then
+                        isEditingStartPoint = True
+                    ElseIf IsNearPoint(ConvertMouseToImageCoords(e.Location), arrow.EndPoint) Then
+                        isEditingEndPoint = True
+                    End If
+                Else
+                    isDragging = True
+                    startPoint = ConvertMouseToImageCoords(e.Location)
+                    endPoint = ConvertMouseToImageCoords(e.Location)
                 End If
-            ElseIf selectedTextIndex >= 0 Then
-                ' Begin editing text
-                textPosition = texts(selectedTextIndex).Position
-                TextBox1.Location = New Point(textPosition.X + PictureBox1.Left, textPosition.Y + PictureBox1.Top)
-                TextBox1.Text = texts(selectedTextIndex).Content
-                TextBox1.Visible = True
-                TextBox1.Focus()
-            Else
-                isDragging = True
-                startPoint = e.Location
-                endPoint = e.Location
             End If
+
+        ElseIf isTextMode = True Then
+
+            If e.Button = MouseButtons.Left Then
+
+                selectedTextIndex = GetSelectedTextIndex(ConvertMouseToImageCoords(e.Location))
+
+                If selectedTextIndex >= 0 Then
+                    Dim text = texts(selectedTextIndex)
+                    textPosition = ConvertMouseToImageCoords(e.Location)
+                    TextBox1.Location = New Point(e.X + 12, e.Y + 5)
+                    TextBox1.Visible = True
+                    text.Content = TextBox1.Text
+                    text.Position = textPosition
+                    texts(selectedTextIndex) = Text
+                    TextBox1.Focus()
+                Else
+
+                    textPosition = ConvertMouseToImageCoords(e.Location)
+                    TextBox1.Location = New Point(e.X + 12, e.Y + 5)
+                    TextBox1.Visible = True
+                    TextBox1.Focus()
+
+                End If
+            End If
+
+        ElseIf isEraseMode = True Then
+
+            If e.Button = MouseButtons.Left Then
+                selectedArrowIndex = GetSelectedArrowIndex(ConvertMouseToImageCoords(e.Location))
+                If selectedArrowIndex >= 0 AndAlso selectedArrowIndex < arrows.Count Then
+
+                    arrows.RemoveAt(selectedArrowIndex)
+                    selectedArrowIndex = -1
+                    RedrawImage()
+
+                    'Dim arrow = arrows(selectedArrowIndex)
+                    'If IsNearPoint(ConvertMouseToImageCoords(e.Location), arrow.StartPoint) Then
+                    '    isEditingStartPoint = True
+                    'ElseIf IsNearPoint(ConvertMouseToImageCoords(e.Location), arrow.EndPoint) Then
+                    '    isEditingEndPoint = True
+                    'End If
+                End If
+
+                selectedTextIndex = GetSelectedTextIndex(ConvertMouseToImageCoords(e.Location))
+                If selectedTextIndex >= 0 AndAlso selectedTextIndex < texts.Count Then
+                    texts.RemoveAt(selectedTextIndex)
+                    selectedTextIndex = -1
+                    RedrawImage()
+                End If
+
+            End If
+
+        Else
+
         End If
+
+        'If e.Button = MouseButtons.Left Then
+        '    selectedArrowIndex = GetSelectedArrowIndex(e.Location)
+        '    selectedTextIndex = GetSelectedTextIndex(e.Location)
+        '    If selectedArrowIndex >= 0 Then
+        '        Dim arrow = arrows(selectedArrowIndex)
+        '        If IsNearPoint(e.Location, arrow.StartPoint) Then
+        '            isEditingStartPoint = True
+        '        ElseIf IsNearPoint(e.Location, arrow.EndPoint) Then
+        '            isEditingEndPoint = True
+        '        End If
+        '    ElseIf selectedTextIndex >= 0 Then
+        '        ' Begin editing text
+        '        textPosition = texts(selectedTextIndex).Position
+        '        TextBox1.Location = New Point(textPosition.X + PictureBox1.Left, textPosition.Y + PictureBox1.Top)
+        '        TextBox1.Text = texts(selectedTextIndex).Content
+        '        TextBox1.Visible = True
+        '        TextBox1.Focus()
+        '    Else
+        '        isDragging = True
+        '        startPoint = e.Location
+        '        endPoint = e.Location
+        '    End If
+        'End If
     End Sub
 
     Private Sub PictureBox1_MouseMove(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseMove
+
+        If isPenMode = True Then
+            selectedArrowIndex = GetSelectedArrowIndex(ConvertMouseToImageCoords(e.Location))
+            If selectedArrowIndex >= 0 Then
+                PictureBox1.Cursor = Cursors.Hand
+            Else
+                PictureBox1.Cursor = Cursors.Cross
+            End If
+        ElseIf isTextMode = True Then
+            selectedTextIndex = GetSelectedTextIndex(ConvertMouseToImageCoords(e.Location))
+            If selectedTextIndex >= 0 Then
+                PictureBox1.Cursor = Cursors.Hand
+            Else
+                PictureBox1.Cursor = Cursors.IBeam
+            End If
+        End If
+
+
         If isDragging Then
-            endPoint = e.Location
+            endPoint = ConvertMouseToImageCoords(e.Location)
             RedrawImage()
         ElseIf isEditingStartPoint AndAlso selectedArrowIndex >= 0 Then
             Dim arrow = arrows(selectedArrowIndex)
-            arrow.StartPoint = e.Location
+            arrow.StartPoint = ConvertMouseToImageCoords(e.Location)
             arrows(selectedArrowIndex) = arrow
             RedrawImage()
         ElseIf isEditingEndPoint AndAlso selectedArrowIndex >= 0 Then
             Dim arrow = arrows(selectedArrowIndex)
-            arrow.EndPoint = e.Location
+            arrow.EndPoint = ConvertMouseToImageCoords(e.Location)
             arrows(selectedArrowIndex) = arrow
             RedrawImage()
         End If
+
     End Sub
 
     Private Sub PictureBox1_MouseUp(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseUp
@@ -83,10 +193,11 @@ Public Class Form1
             isDragging = False
             Dim newArrow As New DrawArrow With {
                 .StartPoint = startPoint,
-                .EndPoint = endPoint
+                .EndPoint = endPoint,
+                .LineWeight = lineWeight,
+                .LineColor = lineColor
             }
             arrows.Add(newArrow)
-            'If arrows.Count > 5 Then arrows.RemoveAt(0) ' Limit to 2 arrows
             RedrawImage()
         End If
         If isEditingStartPoint OrElse isEditingEndPoint Then
@@ -96,32 +207,107 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If TextBox1.Visible Then
-            ' Update the existing text
-            If selectedTextIndex >= 0 Then
-                Dim text = texts(selectedTextIndex)
-                text.Content = TextBox1.Text
-                texts(selectedTextIndex) = text
-            Else
-                ' Add new text to the image
-                Dim newText As New DrawText With {
-                    .Position = textPosition,
-                    .Content = TextBox1.Text
-                }
-                texts.Add(newText)
-            End If
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        isPenMode = Not isPenMode
+        isTextMode = False
+        isEraseMode = False
+        If isPenMode Then
+            Button4.BackColor = Color.MediumSeaGreen
+            PictureBox1.Cursor = Cursors.Cross
+            Button5.BackColor = Color.Transparent
+            Button6.BackColor = Color.Transparent
             TextBox1.Visible = False
-            RedrawImage()
+        Else
+            Button4.BackColor = Color.Transparent
+            PictureBox1.Cursor = Cursors.Arrow
         End If
     End Sub
 
-    Private Sub PictureBox1_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseDoubleClick
-        ' Set text position on double-click
-        textPosition = e.Location
-        TextBox1.Location = New Point(textPosition.X + PictureBox1.Left, textPosition.Y + PictureBox1.Top)
-        TextBox1.Visible = True
-        TextBox1.Focus()
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        isPenMode = False
+        isTextMode = False
+        isEraseMode = Not isEraseMode
+        If isEraseMode Then
+            Button5.BackColor = Color.MediumSeaGreen
+            PictureBox1.Cursor = Cursors.UpArrow
+            Button4.BackColor = Color.Transparent
+            Button6.BackColor = Color.Transparent
+            TextBox1.Visible = False
+        Else
+            Button5.BackColor = Color.Transparent
+            PictureBox1.Cursor = Cursors.Arrow
+        End If
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        isPenMode = False
+        isTextMode = Not isTextMode
+        isEraseMode = False
+        If isTextMode Then
+            Button6.BackColor = Color.MediumSeaGreen
+            PictureBox1.Cursor = Cursors.IBeam
+            Button4.BackColor = Color.Transparent
+            Button5.BackColor = Color.Transparent
+        Else
+            TextBox1.Visible = False
+            Button6.BackColor = Color.Transparent
+            PictureBox1.Cursor = Cursors.Arrow
+        End If
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        lineWeight = CInt(ComboBox1.SelectedItem)
+    End Sub
+
+    Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
+        If e.KeyChar = ChrW(Keys.Return) Then
+            If TextBox1.Visible Then
+                If selectedTextIndex >= 0 Then
+                    Dim text = texts(selectedTextIndex)
+                    text.Content = TextBox1.Text
+                    texts(selectedTextIndex) = text
+                Else
+                    Dim newText As New DrawText With {
+                    .Position = textPosition,
+                    .Content = TextBox1.Text,
+                    .TextSize = textSize,
+                    .Font = textFont,
+                    .Color = textColor
+                }
+                    texts.Add(newText)
+                End If
+                TextBox1.Visible = False
+                TextBox1.Clear()
+                RedrawImage()
+            End If
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles PictureBox2.Click
+        Dim cDialog As New ColorDialog()
+        cDialog.Color = lineColor
+        If (cDialog.ShowDialog() = DialogResult.OK) Then
+            lineColor = cDialog.Color
+            PictureBox2.BackColor = cDialog.Color
+        End If
+    End Sub
+
+    Private Sub PictureBox3_Click(sender As Object, e As EventArgs) Handles PictureBox3.Click
+        Dim cDialog As New ColorDialog()
+        cDialog.Color = textColor
+        If (cDialog.ShowDialog() = DialogResult.OK) Then
+            textColor = cDialog.Color
+            PictureBox3.BackColor = cDialog.Color
+        End If
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        SaveImage("exported.jpg")
+    End Sub
+
+    Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedIndexChanged
+        textSize = CInt(ComboBox2.SelectedItem)
     End Sub
 
     Private Sub RedrawImage()
@@ -130,59 +316,66 @@ Public Class Form1
 
         Using g As Graphics = Graphics.FromImage(tempImage)
 
-            Dim pen As New Pen(Color.Black, 7)
-            pen.EndCap = Drawing2D.LineCap.ArrowAnchor
-            ListBox1.Items.Clear()
 
-            For Each arrow In arrows
-                ListBox1.Items.Add($"Start Point: {arrow.StartPoint} | End Point: {arrow.EndPoint}")
-                g.DrawLine(pen, arrow.StartPoint, arrow.EndPoint)
-            Next
+            If arrows Is Nothing Then
 
-            Dim textFont As New Drawing.Font("Arial", 13, FontStyle.Bold Or FontStyle.Italic)
-            Dim brush As New SolidBrush(Color.Black)
-            For Each DrawText In texts
-                g.DrawString(DrawText.Content, textFont, brush, DrawText.Position)
-            Next
+            Else
 
-            If isDragging Then
-                g.DrawLine(pen, startPoint, endPoint)
+                For Each arrow In arrows
+                    Dim pen As New Pen(arrow.LineColor, arrow.LineWeight)
+                    pen.EndCap = Drawing2D.LineCap.ArrowAnchor
+                    g.DrawLine(pen, arrow.StartPoint, arrow.EndPoint)
+                    If isDragging Then
+                        g.DrawLine(pen, startPoint, endPoint)
+                    End If
+                Next
+
             End If
+
+
+            For Each DrawText In texts
+                Dim brush As New SolidBrush(DrawText.Color)
+                g.DrawString(DrawText.Content, New Drawing.Font(DrawText.Font, DrawText.TextSize, FontStyle.Regular), Brush, DrawText.Position)
+            Next
+
         End Using
 
         PictureBox1.Image = tempImage
+
     End Sub
 
-    Private Function CalculateAngle(startPoint As Point, endPoint As Point) As Single
-        Dim deltaX As Integer = endPoint.X - startPoint.X
-        Dim deltaY As Integer = endPoint.Y - startPoint.Y
-        Dim angle As Single = Math.Atan2(deltaY, deltaX) * (180.0F / Math.PI)
-        Return angle
+    Private Function IsNearPoint(point1 As Point, point2 As Point, Optional threshold As Integer = 10) As Boolean
+        Dim dx As Integer = point1.X - point2.X
+        Dim dy As Integer = point1.Y - point2.Y
+        Return (dx * dx + dy * dy) <= (threshold * threshold)
     End Function
 
-    Private Function GetTextPositionForArrow(arrow As DrawArrow) As Point
-        Dim midPointX As Integer = (arrow.StartPoint.X + arrow.EndPoint.X) \ 2
-        Dim midPointY As Integer = (arrow.StartPoint.Y + arrow.EndPoint.Y) \ 2
-        Return New Point(midPointX, midPointY - 30) ' Adjust the Y position to place text above the arrow
-    End Function
-
-    Private Function IsNearPoint(clickPoint As Point, targetPoint As Point) As Boolean
-        ' Check if the click point is near the target point
-        Return Math.Abs(clickPoint.X - targetPoint.X) < ClickThreshold AndAlso Math.Abs(clickPoint.Y - targetPoint.Y) < ClickThreshold
+    Private Function IsNearLine(point As Point, startPoint As Point, endPoint As Point, threshold As Integer) As Boolean
+        Dim A As Double = endPoint.Y - startPoint.Y
+        Dim B As Double = startPoint.X - endPoint.X
+        Dim C As Double = endPoint.X * startPoint.Y - startPoint.X * endPoint.Y
+        Dim distance As Double = Math.Abs(A * point.X + B * point.Y + C) / Math.Sqrt(A * A + B * B)
+        Return distance <= threshold
     End Function
 
     Private Function GetSelectedArrowIndex(clickPoint As Point) As Integer
+
+        Const clickThreshold As Integer = 2 ' Sesuaikan threshold ini sesuai kebutuhan Anda
+
         For i As Integer = 0 To arrows.Count - 1
             If IsNearPoint(clickPoint, arrows(i).StartPoint) OrElse IsNearPoint(clickPoint, arrows(i).EndPoint) Then
+                Return i
+            ElseIf IsNearLine(clickPoint, arrows(i).StartPoint, arrows(i).EndPoint, clickThreshold) Then
                 Return i
             End If
         Next
         Return -1
+
     End Function
 
     Private Function GetSelectedTextIndex(clickPoint As Point) As Integer
         For i As Integer = 0 To texts.Count - 1
-            Dim textRect As New Rectangle(texts(i).Position, TextRenderer.MeasureText(texts(i).Content, New Drawing.Font("Times New Roman",
+            Dim textRect As New Rectangle(texts(i).Position, TextRenderer.MeasureText(texts(i).Content, New Drawing.Font(textFont,
                                16,
                                FontStyle.Bold Or FontStyle.Italic)))
             If textRect.Contains(clickPoint) Then
@@ -193,34 +386,50 @@ Public Class Form1
     End Function
 
     Private Sub SaveImage(filePath As String)
-        ' Create a copy of the original image to draw on
+
         Dim tempImage As Bitmap = New Bitmap(image)
 
         Using g As Graphics = Graphics.FromImage(tempImage)
-            ' Define the pen for drawing the arrow
-            Dim pen As New Pen(Color.Black, 7)
-            pen.EndCap = Drawing2D.LineCap.ArrowAnchor
 
-            ' Draw all arrows
             For Each arrow In arrows
+                Dim pen As New Pen(arrow.LineColor, arrow.LineWeight)
+                pen.EndCap = Drawing2D.LineCap.ArrowAnchor
                 g.DrawLine(pen, arrow.StartPoint, arrow.EndPoint)
             Next
 
-            ' Draw all texts
-            Dim textFont As New Drawing.Font("Times New Roman",
-                               16,
-                               FontStyle.Bold Or FontStyle.Italic)
-            Dim brush As New SolidBrush(Color.Black)
             For Each DrawText In texts
-                g.DrawString(DrawText.Content, textFont, brush, DrawText.Position)
+                Dim brush As New SolidBrush(DrawText.Color)
+                g.DrawString(DrawText.Content, New Font(DrawText.Font, DrawText.TextSize, FontStyle.Regular), brush, DrawText.Position)
             Next
+
         End Using
 
-        ' Save the image to the specified file path
         tempImage.Save(filePath, Imaging.ImageFormat.Jpeg)
+
     End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        SaveImage("exported.jpg")
-    End Sub
+    Private Function ConvertMouseToImageCoords(mousePoint As Point) As Point
+        Dim imageSize As Size = image.Size
+        Dim pictureBoxSize As Size = PictureBox1.ClientSize
+
+        Dim imageAspectRatio As Single = imageSize.Width / imageSize.Height
+        Dim pictureBoxAspectRatio As Single = pictureBoxSize.Width / pictureBoxSize.Height
+
+        Dim scaleFactor As Single
+        Dim offset As Point
+
+        If imageAspectRatio > pictureBoxAspectRatio Then
+            ' Image is limited by width
+            scaleFactor = pictureBoxSize.Width / imageSize.Width
+            offset = New Point(0, (pictureBoxSize.Height - imageSize.Height * scaleFactor) / 2)
+        Else
+            ' Image is limited by height
+            scaleFactor = pictureBoxSize.Height / imageSize.Height
+            offset = New Point((pictureBoxSize.Width - imageSize.Width * scaleFactor) / 2, 0)
+        End If
+
+        Dim imagePoint As New Point((mousePoint.X - offset.X) / scaleFactor, (mousePoint.Y - offset.Y) / scaleFactor)
+        Return imagePoint
+    End Function
+
 End Class
