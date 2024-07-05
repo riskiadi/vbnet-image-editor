@@ -38,16 +38,19 @@ Partial Class Form1
         Button6 = New Button()
         Button5 = New Button()
         Button4 = New Button()
+        GroupBox2 = New GroupBox()
+        ListBox1 = New ListBox()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
+        GroupBox2.SuspendLayout()
         SuspendLayout()
         ' 
         ' PictureBox1
         ' 
         PictureBox1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        PictureBox1.BackColor = Color.Black
+        PictureBox1.BackColor = Color.White
         PictureBox1.BorderStyle = BorderStyle.FixedSingle
         PictureBox1.Location = New Point(12, 12)
         PictureBox1.Name = "PictureBox1"
@@ -61,7 +64,7 @@ Partial Class Form1
         TextBox1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         TextBox1.BorderStyle = BorderStyle.FixedSingle
         TextBox1.Font = New Font("Arial Narrow", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        TextBox1.Location = New Point(728, 255)
+        TextBox1.Location = New Point(749, 552)
         TextBox1.Name = "TextBox1"
         TextBox1.Size = New Size(169, 26)
         TextBox1.TabIndex = 2
@@ -224,6 +227,28 @@ Partial Class Form1
         Button4.TextImageRelation = TextImageRelation.ImageAboveText
         Button4.UseVisualStyleBackColor = False
         ' 
+        ' GroupBox2
+        ' 
+        GroupBox2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        GroupBox2.Controls.Add(ListBox1)
+        GroupBox2.Location = New Point(728, 230)
+        GroupBox2.Name = "GroupBox2"
+        GroupBox2.Size = New Size(524, 223)
+        GroupBox2.TabIndex = 19
+        GroupBox2.TabStop = False
+        GroupBox2.Text = "Variable"
+        ' 
+        ' ListBox1
+        ' 
+        ListBox1.ColumnWidth = 2
+        ListBox1.FormattingEnabled = True
+        ListBox1.ItemHeight = 15
+        ListBox1.Location = New Point(13, 22)
+        ListBox1.MultiColumn = True
+        ListBox1.Name = "ListBox1"
+        ListBox1.Size = New Size(498, 184)
+        ListBox1.TabIndex = 0
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -231,6 +256,7 @@ Partial Class Form1
         AutoSize = True
         BackColor = Color.WhiteSmoke
         ClientSize = New Size(1264, 761)
+        Controls.Add(GroupBox2)
         Controls.Add(GroupBox1)
         Controls.Add(TextBox1)
         Controls.Add(PictureBox1)
@@ -245,6 +271,7 @@ Partial Class Form1
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).EndInit()
         GroupBox1.ResumeLayout(False)
+        GroupBox2.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -264,5 +291,7 @@ Partial Class Form1
     Friend WithEvents Button6 As Button
     Friend WithEvents Button5 As Button
     Friend WithEvents Button4 As Button
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents ListBox1 As ListBox
 
 End Class

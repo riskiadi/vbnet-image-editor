@@ -1,5 +1,39 @@
-﻿
+﻿Imports IniParser
+Imports IniParser.Model
+Imports System.Reflection
+Imports System.IO
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Public Class Form1
+
+    '[config]
+    'TemplatePath = \\10.10.7.12\shareimages\sitemarking\template
+    'TemplateName = GIGI (PALMER SYSTEM).jpg
+
+    'NamaTabel = RME_IMAGES
+    'FilePath = \\10.10.7.12\shareimages\sitemarking\
+    'FileName = uploaded.jpg
+    'ID = 20240705135500001
+    'KodeDoc = EROP-1
+    'NoReg = 202407050001
+    'NoPasien = 665566
+    'KodeBagian = 9301
+    'UserInput = ADMIN
+    'CompInput = MSI
+
+    Private ReadOnly formController As FormController
+    Dim parser As New FileIniDataParser()
+    Dim dataIni As IniData = parser.ReadFile("config.ini")
+
+    Dim iniTemplatePath = dataIni("config")("TemplatePath")
+    Dim iniTemplateName = dataIni("config")("TemplateName")
+    Dim iniFilePath = dataIni("config")("UploadPath")
+    Dim iniFileName = dataIni("config")("UploadName")
+    Dim iniIDDoc = dataIni("config")("IDDoc")
+    Dim iniNoReg = dataIni("config")("NoReg")
+    Dim iniNamaTabel = dataIni("config")("NamaTabel")
+
+    Dim localAppPath = dataIni("config")("NamaTabel")
+
 
     Private isPenMode As Boolean = False
     Private isTextMode As Boolean = False
@@ -25,6 +59,11 @@ Public Class Form1
     Private arrows As New List(Of DrawArrow)
     Private texts As New List(Of DrawText)
 
+    Public Sub New()
+        formController = New FormController()
+        InitializeComponent()
+    End Sub
+
     Public Structure DrawArrow
         Public StartPoint As Point
         Public EndPoint As Point
@@ -41,14 +80,28 @@ Public Class Form1
     End Structure
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        image = New Bitmap("image.jpg")
-        ComboBox1.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15})
-        ComboBox2.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25})
-        ComboBox1.SelectedIndex = 6
+        Me.Text = $"Editor Gambar {GetAppVersion()}"
+
+        ComboBox1.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25})
+        ComboBox2.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30})
+        ComboBox1.SelectedIndex = 12
         ComboBox2.SelectedIndex = 12
         lineWeight = CInt(ComboBox1.SelectedItem)
         textSize = CInt(ComboBox2.SelectedItem)
-        PictureBox1.Image = image
+        'PictureBox1.Image = New Bitmap("image.jpg")
+        PictureBox2.BackColor = lineColor
+
+        CheckAppVersion()
+
+        Dim localPath As String = $"{AppDomain.CurrentDomain.BaseDirectory}\image.jpg"
+        Try
+            DownloadImage(iniTemplatePath, iniTemplateName, localPath)
+            image = New Bitmap("image.jpg")
+            PictureBox1.Image = image
+        Catch ex As Exception
+            MessageBox.Show("Gagal mengunduh gambar: " & ex.Message)
+        End Try
+
     End Sub
 
     Private Sub PictureBox1_MouseDown(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseDown
@@ -84,7 +137,7 @@ Public Class Form1
                     TextBox1.Visible = True
                     text.Content = TextBox1.Text
                     text.Position = textPosition
-                    texts(selectedTextIndex) = Text
+                    texts(selectedTextIndex) = text
                     TextBox1.Focus()
                 Else
 
@@ -304,6 +357,14 @@ Public Class Form1
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         SaveImage("exported.jpg")
+        Dim localFilePath As String = $"{AppDomain.CurrentDomain.BaseDirectory}\exported.jpg"
+        Try
+            UploadImage(localFilePath, iniFilePath, iniFileName)
+            MessageBox.Show("Gambar berhasil dikirim.")
+        Catch ex As Exception
+            MessageBox.Show("Gagal mengirim file: " & ex.Message)
+        End Try
+
     End Sub
 
     Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedIndexChanged
@@ -335,7 +396,7 @@ Public Class Form1
 
             For Each DrawText In texts
                 Dim brush As New SolidBrush(DrawText.Color)
-                g.DrawString(DrawText.Content, New Drawing.Font(DrawText.Font, DrawText.TextSize, FontStyle.Regular), Brush, DrawText.Position)
+                g.DrawString(DrawText.Content, New Drawing.Font(DrawText.Font, DrawText.TextSize, FontStyle.Regular), brush, DrawText.Position)
             Next
 
         End Using
@@ -431,5 +492,46 @@ Public Class Form1
         Dim imagePoint As New Point((mousePoint.X - offset.X) / scaleFactor, (mousePoint.Y - offset.Y) / scaleFactor)
         Return imagePoint
     End Function
+    Function GetAppVersion() As String
+        Dim assembly As Assembly = Assembly.GetExecutingAssembly()
+        Dim versionInfo As AssemblyName = assembly.GetName()
+        Return versionInfo.Version.ToString()
+    End Function
+
+    Private Async Sub CheckAppVersion()
+        Try
+            Dim result = Await formController.GetCurentVersion()
+            If result.Code = 200 Then
+
+                Dim localVersion As New Version(GetAppVersion())
+                Dim serverVersion As New Version(result.Data.version)
+                Dim comparisonResult As Integer = localVersion.CompareTo(serverVersion)
+
+                If comparisonResult < 0 Then
+                    MessageBox.Show($"Butuh Update")
+                End If
+
+            Else
+
+            End If
+        Catch ex As Exception
+            MessageBox.Show($"An error occurred during CheckAppVersion(). {vbCrLf}{vbCrLf} {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            'Button1.Enabled = True
+            'TextBox1.Enabled = True
+            'TextBox2.Enabled = True
+            'loginStatusLabel.Text = ""
+        End Try
+    End Sub
+
+    Sub DownloadImage(sharedFolderPath As String, fileName As String, localPath As String)
+        Dim sourcePath As String = Path.Combine(sharedFolderPath, fileName)
+        File.Copy(sourcePath, localPath, True)
+    End Sub
+
+    Sub UploadImage(localFilePath As String, sharedFolderPath As String, remoteFileName As String)
+        Dim remoteFilePath As String = Path.Combine(sharedFolderPath, remoteFileName)
+        File.Copy(localFilePath, remoteFilePath, True)
+    End Sub
 
 End Class
