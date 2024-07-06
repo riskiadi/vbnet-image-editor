@@ -22,17 +22,20 @@ Public Class Form1
 
     Private ReadOnly formController As FormController
     Dim parser As New FileIniDataParser()
-    Dim dataIni As IniData = parser.ReadFile("config.ini")
+    Dim dataIni As IniData = parser.ReadFile("ImageEditor.ini")
 
     Dim iniTemplatePath = dataIni("config")("TemplatePath")
     Dim iniTemplateName = dataIni("config")("TemplateName")
-    Dim iniFilePath = dataIni("config")("UploadPath")
-    Dim iniFileName = dataIni("config")("UploadName")
-    Dim iniIDDoc = dataIni("config")("IDDoc")
-    Dim iniNoReg = dataIni("config")("NoReg")
     Dim iniNamaTabel = dataIni("config")("NamaTabel")
-
-    Dim localAppPath = dataIni("config")("NamaTabel")
+    Dim iniFilePath = dataIni("config")("FilePath")
+    Dim iniFileName = dataIni("config")("FileName")
+    Dim iniID = dataIni("config")("ID")
+    Dim iniKodeDoc = dataIni("config")("KodeDoc")
+    Dim iniNoReg = dataIni("config")("NoReg")
+    Dim iniNoPasien = dataIni("config")("NoPasien")
+    Dim iniKodeBagian = dataIni("config")("KodeBagian")
+    Dim iniUserInput = dataIni("config")("UserInput")
+    Dim iniCompInput = dataIni("config")("CompInput")
 
 
     Private isPenMode As Boolean = False
@@ -61,6 +64,7 @@ Public Class Form1
 
     Public Sub New()
         formController = New FormController()
+        Me.DoubleBuffered = True
         InitializeComponent()
     End Sub
 
@@ -80,7 +84,7 @@ Public Class Form1
     End Structure
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = $"Editor Gambar {GetAppVersion()}"
+        Me.Text = $"Editor Gambar RME {GetAppVersion()} (Beta)"
 
         ComboBox1.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25})
         ComboBox2.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30})
@@ -206,7 +210,6 @@ Public Class Form1
     End Sub
 
     Private Sub PictureBox1_MouseMove(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseMove
-
         If isPenMode = True Then
             selectedArrowIndex = GetSelectedArrowIndex(ConvertMouseToImageCoords(e.Location))
             If selectedArrowIndex >= 0 Then
@@ -223,7 +226,6 @@ Public Class Form1
             End If
         End If
 
-
         If isDragging Then
             endPoint = ConvertMouseToImageCoords(e.Location)
             RedrawImage()
@@ -238,7 +240,6 @@ Public Class Form1
             arrows(selectedArrowIndex) = arrow
             RedrawImage()
         End If
-
     End Sub
 
     Private Sub PictureBox1_MouseUp(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseUp
@@ -360,7 +361,8 @@ Public Class Form1
         Dim localFilePath As String = $"{AppDomain.CurrentDomain.BaseDirectory}\exported.jpg"
         Try
             UploadImage(localFilePath, iniFilePath, iniFileName)
-            MessageBox.Show("Gambar berhasil dikirim.")
+            MessageBox.Show("Gambar berhasil disimpan.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Close()
         Catch ex As Exception
             MessageBox.Show("Gagal mengirim file: " & ex.Message)
         End Try
@@ -372,37 +374,40 @@ Public Class Form1
     End Sub
 
     Private Sub RedrawImage()
-
         Dim tempImage As Bitmap = New Bitmap(image)
 
         Using g As Graphics = Graphics.FromImage(tempImage)
+            ' Enable high-quality rendering
+            g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
 
-
-            If arrows Is Nothing Then
-
-            Else
-
+            ' Draw all arrows
+            If arrows IsNot Nothing Then
                 For Each arrow In arrows
                     Dim pen As New Pen(arrow.LineColor, arrow.LineWeight)
                     pen.EndCap = Drawing2D.LineCap.ArrowAnchor
                     g.DrawLine(pen, arrow.StartPoint, arrow.EndPoint)
-                    If isDragging Then
-                        g.DrawLine(pen, startPoint, endPoint)
-                    End If
                 Next
-
             End If
 
+            ' Draw the temporary arrow while dragging
+            If isDragging Then
+                Dim pen As New Pen(lineColor, lineWeight)
+                pen.EndCap = Drawing2D.LineCap.ArrowAnchor
+                g.DrawLine(pen, startPoint, endPoint)
+            End If
 
+            ' Draw all texts
             For Each DrawText In texts
                 Dim brush As New SolidBrush(DrawText.Color)
                 g.DrawString(DrawText.Content, New Drawing.Font(DrawText.Font, DrawText.TextSize, FontStyle.Regular), brush, DrawText.Position)
             Next
-
         End Using
 
+        ' Set the PictureBox image to the tempImage
         PictureBox1.Image = tempImage
 
+        ' Optionally, call Invalidate to force the PictureBox to repaint
+        PictureBox1.Invalidate()
     End Sub
 
     Private Function IsNearPoint(point1 As Point, point2 As Point, Optional threshold As Integer = 10) As Boolean
@@ -473,25 +478,28 @@ Public Class Form1
         Dim imageSize As Size = image.Size
         Dim pictureBoxSize As Size = PictureBox1.ClientSize
 
-        Dim imageAspectRatio As Single = imageSize.Width / imageSize.Height
-        Dim pictureBoxAspectRatio As Single = pictureBoxSize.Width / pictureBoxSize.Height
+        Dim imageAspect As Double = imageSize.Width / imageSize.Height
+        Dim pictureBoxAspect As Double = pictureBoxSize.Width / pictureBoxSize.Height
 
-        Dim scaleFactor As Single
-        Dim offset As Point
-
-        If imageAspectRatio > pictureBoxAspectRatio Then
-            ' Image is limited by width
+        Dim scaleFactor As Double
+        If imageAspect > pictureBoxAspect Then
             scaleFactor = pictureBoxSize.Width / imageSize.Width
-            offset = New Point(0, (pictureBoxSize.Height - imageSize.Height * scaleFactor) / 2)
         Else
-            ' Image is limited by height
             scaleFactor = pictureBoxSize.Height / imageSize.Height
-            offset = New Point((pictureBoxSize.Width - imageSize.Width * scaleFactor) / 2, 0)
         End If
 
-        Dim imagePoint As New Point((mousePoint.X - offset.X) / scaleFactor, (mousePoint.Y - offset.Y) / scaleFactor)
-        Return imagePoint
+        Dim scaledWidth As Integer = CInt(imageSize.Width * scaleFactor)
+        Dim scaledHeight As Integer = CInt(imageSize.Height * scaleFactor)
+
+        Dim offsetX As Integer = (pictureBoxSize.Width - scaledWidth) / 2
+        Dim offsetY As Integer = (pictureBoxSize.Height - scaledHeight) / 2
+
+        Dim imagePointX As Integer = CInt((mousePoint.X - offsetX) / scaleFactor)
+        Dim imagePointY As Integer = CInt((mousePoint.Y - offsetY) / scaleFactor)
+
+        Return New Point(imagePointX, imagePointY)
     End Function
+
     Function GetAppVersion() As String
         Dim assembly As Assembly = Assembly.GetExecutingAssembly()
         Dim versionInfo As AssemblyName = assembly.GetName()

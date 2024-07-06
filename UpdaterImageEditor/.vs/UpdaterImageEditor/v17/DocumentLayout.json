@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|c:\\users\\ucupu\\documents\\vbnet-image-editor\\updaterimageeditor\\updaterimageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|solutionrelative:updaterimageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|c:\\users\\ucupu\\documents\\vbnet-image-editor\\updaterimageeditor\\updaterimageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|solutionrelative:updaterimageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.vb",
+              "DocumentMoniker": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb",
+              "RelativeDocumentMoniker": "UpdaterImageEditor\\Form1.vb",
+              "ToolTip": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb",
+              "RelativeToolTip": "UpdaterImageEditor\\Form1.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-05T23:09:29.542Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Form1.vb [Design]",
+              "DocumentMoniker": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb",
+              "RelativeDocumentMoniker": "UpdaterImageEditor\\Form1.vb",
+              "ToolTip": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb [Design]",
+              "RelativeToolTip": "UpdaterImageEditor\\Form1.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-05T22:54:27.805Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

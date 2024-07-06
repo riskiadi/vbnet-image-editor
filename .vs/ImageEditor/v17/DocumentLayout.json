@@ -1,0 +1,134 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\ucupu\\documents\\vbnet-image-editor\\imageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\ucupu\\documents\\vbnet-image-editor\\imageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\ucupu\\documents\\vbnet-image-editor\\imageeditor\\imageeditor.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\imageeditor.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\ucupu\\documents\\vbnet-image-editor\\imageeditor\\network\\apiconfiguration.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\network\\apiconfiguration.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\imageeditor\\my project\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
+      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\my project\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\ucupu\\documents\\vbnet-image-editor\\imageeditor\\network\\apirepository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\network\\apirepository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\ucupu\\documents\\vbnet-image-editor\\imageeditor\\controller\\formcontroller.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\controller\\formcontroller.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.vb",
+              "DocumentMoniker": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\Form1.vb",
+              "RelativeDocumentMoniker": "ImageEditor\\Form1.vb",
+              "ToolTip": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\Form1.vb",
+              "RelativeToolTip": "ImageEditor\\Form1.vb",
+              "ViewState": "AQIAAGQAAAAAAAAAAAAowH0AAABGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-05T12:49:44.528Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Form1.vb [Design]",
+              "DocumentMoniker": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\Form1.vb",
+              "RelativeDocumentMoniker": "ImageEditor\\Form1.vb",
+              "ToolTip": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\Form1.vb [Design]",
+              "RelativeToolTip": "ImageEditor\\Form1.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-05T12:45:36.945Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ImageEditor",
+              "DocumentMoniker": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
+              "RelativeDocumentMoniker": "ImageEditor\\ImageEditor.vbproj",
+              "ToolTip": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
+              "RelativeToolTip": "ImageEditor\\ImageEditor.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-07-05T11:11:37.691Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "FormController.vb",
+              "DocumentMoniker": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\Controller\\FormController.vb",
+              "RelativeDocumentMoniker": "ImageEditor\\Controller\\FormController.vb",
+              "ToolTip": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\Controller\\FormController.vb",
+              "RelativeToolTip": "ImageEditor\\Controller\\FormController.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAkAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-05T11:11:37.855Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ApiRepository.vb",
+              "DocumentMoniker": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\Network\\ApiRepository.vb",
+              "RelativeDocumentMoniker": "ImageEditor\\Network\\ApiRepository.vb",
+              "ToolTip": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\Network\\ApiRepository.vb",
+              "RelativeToolTip": "ImageEditor\\Network\\ApiRepository.vb",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABIAAABqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-05T11:11:37.87Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApiConfiguration.vb",
+              "DocumentMoniker": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\Network\\ApiConfiguration.vb",
+              "RelativeDocumentMoniker": "ImageEditor\\Network\\ApiConfiguration.vb",
+              "ToolTip": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\Network\\ApiConfiguration.vb",
+              "RelativeToolTip": "ImageEditor\\Network\\ApiConfiguration.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-05T11:11:37.882Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Settings.settings",
+              "DocumentMoniker": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\My Project\\Settings.settings",
+              "RelativeDocumentMoniker": "ImageEditor\\My Project\\Settings.settings",
+              "ToolTip": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\My Project\\Settings.settings",
+              "RelativeToolTip": "ImageEditor\\My Project\\Settings.settings",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002767|",
+              "WhenOpened": "2024-07-05T11:11:37.874Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
