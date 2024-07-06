@@ -38,13 +38,10 @@ Partial Class Form1
         Button6 = New Button()
         Button5 = New Button()
         Button4 = New Button()
-        GroupBox2 = New GroupBox()
-        ListBox1 = New ListBox()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
-        GroupBox2.SuspendLayout()
         SuspendLayout()
         ' 
         ' PictureBox1
@@ -236,30 +233,6 @@ Partial Class Form1
         Button4.TextImageRelation = TextImageRelation.ImageAboveText
         Button4.UseVisualStyleBackColor = False
         ' 
-        ' GroupBox2
-        ' 
-        GroupBox2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        GroupBox2.Controls.Add(ListBox1)
-        GroupBox2.Location = New Point(832, 307)
-        GroupBox2.Margin = New Padding(3, 4, 3, 4)
-        GroupBox2.Name = "GroupBox2"
-        GroupBox2.Padding = New Padding(3, 4, 3, 4)
-        GroupBox2.Size = New Size(599, 297)
-        GroupBox2.TabIndex = 19
-        GroupBox2.TabStop = False
-        GroupBox2.Text = "Variable"
-        ' 
-        ' ListBox1
-        ' 
-        ListBox1.ColumnWidth = 2
-        ListBox1.FormattingEnabled = True
-        ListBox1.Location = New Point(15, 29)
-        ListBox1.Margin = New Padding(3, 4, 3, 4)
-        ListBox1.MultiColumn = True
-        ListBox1.Name = "ListBox1"
-        ListBox1.Size = New Size(569, 244)
-        ListBox1.TabIndex = 0
-        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
@@ -267,7 +240,6 @@ Partial Class Form1
         AutoSize = True
         BackColor = Color.WhiteSmoke
         ClientSize = New Size(1445, 1015)
-        Controls.Add(GroupBox2)
         Controls.Add(GroupBox1)
         Controls.Add(TextBox1)
         Controls.Add(PictureBox1)
@@ -284,7 +256,6 @@ Partial Class Form1
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).EndInit()
         GroupBox1.ResumeLayout(False)
-        GroupBox2.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -304,7 +275,5 @@ Partial Class Form1
     Friend WithEvents Button6 As Button
     Friend WithEvents Button5 As Button
     Friend WithEvents Button4 As Button
-    Friend WithEvents GroupBox2 As GroupBox
-    Friend WithEvents ListBox1 As ListBox
 
 End Class

@@ -10,4 +10,8 @@
         Return Await apiRepository.GetCurentAppVersion()
     End Function
 
+    Public Async Function PostRmeDataImage(postData As String) As Task(Of PostRmeDataImageResponseModel)
+        Return Await apiRepository.PostRmeDataImage(postData)
+    End Function
+
 End Class

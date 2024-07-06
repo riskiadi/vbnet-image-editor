@@ -3,6 +3,8 @@ Imports IniParser.Model
 Imports System.Reflection
 Imports System.IO
 Imports FxResources.System
+Imports Newtonsoft.Json
+Imports Renci.SshNet.Sftp
 Public Class Form1
 
     '[config]
@@ -12,13 +14,15 @@ Public Class Form1
     'NamaTabel = RME_IMAGES
     'FilePath = \\10.10.7.12\shareimages\sitemarking\
     'FileName = uploaded.jpg
-    'ID = 20240705135500001
+    'ID = 1234567890
     'KodeDoc = EROP-1
-    'NoReg = 202407050001
+    'NoReg = 1234567890
     'NoPasien = 665566
     'KodeBagian = 9301
     'UserInput = ADMIN
     'CompInput = MSI
+
+    Private Declare Function SetForegroundWindow Lib "user32" (ByVal hwnd As Long) As IntPtr
 
     Private basePath As String = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
     Private iniPath As String = $"{basePath}\ImageEditor.ini"
@@ -392,15 +396,33 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-        SaveImage("exported.jpg")
-        Dim localFilePath As String = $"{AppDomain.CurrentDomain.BaseDirectory}\exported.jpg"
+    Private Async Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         Try
+            SaveImage("exported.jpg")
+            Dim localFilePath As String = $"{AppDomain.CurrentDomain.BaseDirectory}\exported.jpg"
             UploadImage(localFilePath, iniFilePath, iniFileName)
-            MessageBox.Show("Gambar berhasil disimpan.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Dim postData As String = JsonConvert.SerializeObject(New With {
+            .tableName = iniNamaTabel,
+            .filePath = iniFilePath,
+            .fileName = iniFileName,
+            .ID = iniID,
+            .kodeDoc = iniKodeDoc,
+            .noReg = iniNoReg,
+            .noPasien = iniNoPasien,
+            .kodeBagian = iniKodeBagian,
+            .userInput = iniUserInput,
+            .compInput = iniCompInput
+             })
+            Dim response = Await formController.PostRmeDataImage(postData)
+            If response.Code = 200 Or response.Code = 201 Then
+                MessageBox.Show("Penyimpanan data kedalam database berhasil", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                MessageBox.Show($"Penyimpanan data kedalam database gagal, {response.Message }", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
             Close()
         Catch ex As Exception
-            MessageBox.Show("Gagal mengirim file: " & ex.Message)
+            MessageBox.Show($"Proses menyimpan file gagal: {ex.Message }", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Close()
         End Try
 
     End Sub
@@ -553,9 +575,17 @@ Public Class Form1
 
                 If comparisonResult < 0 Then
                     Try
-                        Dim appPath As String = Path.Combine(basePath, "updater\UpdaterImageEditor.exe")
-                        appPath = Path.GetFullPath(appPath)
-                        Process.Start(appPath)
+
+                        Dim p As New Process
+                        p.StartInfo.FileName = Path.Combine(basePath, "updater\UpdaterImageEditor.exe")
+                        p.Start()
+                        SetForegroundWindow(p.Handle)
+
+
+
+                        'Dim appPath As String = Path.Combine(basePath, "updater\UpdaterImageEditor.exe")
+                        'appPath = Path.GetFullPath(appPath)
+                        'Process.Start(appPath)
                         Me.Close()
                     Catch ex As Exception
                         MessageBox.Show($"Updater tidak ditemukan (updater/UpdaterImageEditor.exe), {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)

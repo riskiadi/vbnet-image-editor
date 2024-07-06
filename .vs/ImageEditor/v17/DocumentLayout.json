@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\imageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\imageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -11,24 +15,20 @@
       "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\my project\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\imageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\imageeditor\\imageeditor.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\imageeditor.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\imageeditor\\network\\apirepository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\network\\apirepository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\imageeditor\\network\\apiconfiguration.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\network\\apiconfiguration.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\imageeditor\\network\\apirepository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\network\\apirepository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\imageeditor\\controller\\formcontroller.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\controller\\formcontroller.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\imageeditor\\imageeditor.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{F8019A81-C018-40EE-B6D4-DDE4BEA55EB7}|ImageEditor\\ImageEditor.vbproj|solutionrelative:imageeditor\\imageeditor.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,24 +38,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Form1.vb",
               "DocumentMoniker": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\Form1.vb",
               "RelativeDocumentMoniker": "ImageEditor\\Form1.vb",
               "ToolTip": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\Form1.vb",
               "RelativeToolTip": "ImageEditor\\Form1.vb",
-              "ViewState": "AQIAAPsBAAAAAAAAAAAlwP8BAAAAAAAA",
+              "ViewState": "AQIAAFsCAAAAAAAAAAAmwGkCAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-07-05T12:49:44.528Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Form1.vb [Design]",
               "DocumentMoniker": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\Form1.vb",
               "RelativeDocumentMoniker": "ImageEditor\\Form1.vb",
@@ -67,39 +67,40 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "ImageEditor",
               "DocumentMoniker": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
               "RelativeDocumentMoniker": "ImageEditor\\ImageEditor.vbproj",
               "ToolTip": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
               "RelativeToolTip": "ImageEditor\\ImageEditor.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-07-05T11:11:37.691Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-05T11:11:37.691Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "FormController.vb",
               "DocumentMoniker": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\Controller\\FormController.vb",
               "RelativeDocumentMoniker": "ImageEditor\\Controller\\FormController.vb",
               "ToolTip": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\Controller\\FormController.vb",
               "RelativeToolTip": "ImageEditor\\Controller\\FormController.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAkAAAAjAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAzwA0AAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-07-05T11:11:37.855Z"
+              "WhenOpened": "2024-07-05T11:11:37.855Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "ApiRepository.vb",
               "DocumentMoniker": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\Network\\ApiRepository.vb",
               "RelativeDocumentMoniker": "ImageEditor\\Network\\ApiRepository.vb",
               "ToolTip": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\Network\\ApiRepository.vb",
               "RelativeToolTip": "ImageEditor\\Network\\ApiRepository.vb",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABIAAABqAAAA",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAtwBUAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-07-05T11:11:37.87Z"
+              "WhenOpened": "2024-07-05T11:11:37.87Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -109,13 +110,14 @@
               "RelativeDocumentMoniker": "ImageEditor\\Network\\ApiConfiguration.vb",
               "ToolTip": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\Network\\ApiConfiguration.vb",
               "RelativeToolTip": "ImageEditor\\Network\\ApiConfiguration.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAzAAAA",
+              "ViewState": "AQIAABYAAAAAAAAAAAAQwCoAAABCAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-07-05T11:11:37.882Z"
+              "WhenOpened": "2024-07-05T11:11:37.882Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Settings.settings",
               "DocumentMoniker": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\My Project\\Settings.settings",
               "RelativeDocumentMoniker": "ImageEditor\\My Project\\Settings.settings",

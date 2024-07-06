@@ -39,12 +39,8 @@ Public Class ApiConfiguration
             Dim URI As New Uri(If(isDevelopmentMode, My.Settings.BaseUrlDev, My.Settings.BaseUrlProd) + endPoint)
             Dim jsonContent As New StringContent(jsonData, Encoding.UTF8, "application/json")
             Dim response = Await client.PostAsync(URI, jsonContent)
-            If response.IsSuccessStatusCode Then
-                Dim jsonResult = Await response.Content.ReadAsStringAsync()
-                Return JsonConvert.DeserializeObject(Of T)(jsonResult)
-            Else
-                Throw New Exception($"Failed to get data from API. Status code: {response.StatusCode}")
-            End If
+            Dim jsonResult = Await response.Content.ReadAsStringAsync()
+            Return JsonConvert.DeserializeObject(Of T)(jsonResult)
         End Using
     End Function
 

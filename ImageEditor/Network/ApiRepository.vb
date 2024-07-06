@@ -23,6 +23,16 @@ Public Class ApiRepository
         End If
     End Function
 
+    Public Async Function PostRmeDataImage(postData As String) As Task(Of PostRmeDataImageResponseModel)
+        Dim jsonObject As JObject = Await apiConfiguration.PostApi2(Of JObject)("insertRmeImageEditor", postData)
+        If jsonObject IsNot Nothing AndAlso jsonObject.HasValues Then
+            Dim modelResult As PostRmeDataImageResponseModel = jsonObject.ToObject(Of PostRmeDataImageResponseModel)()
+            Return modelResult
+        Else
+            Return Nothing
+        End If
+    End Function
+
     'Public Async Function LoginUser(username As String, password As String) As Task(Of LoginReponseModel)
     '    Dim formData As New List(Of KeyValuePair(Of String, String)) From {
     '    New KeyValuePair(Of String, String)("username", username),
