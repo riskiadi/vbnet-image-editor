@@ -164,19 +164,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ucupu\\.nuget\\packages\\": {}
+    "C:\\Users\\Alkalynx\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
+      "projectUniqueName": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
       "projectName": "ImageEditor",
-      "projectPath": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
-      "packagesPath": "C:\\Users\\ucupu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\ImageEditor\\obj\\",
+      "projectPath": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
+      "packagesPath": "C:\\Users\\Alkalynx\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ucupu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Alkalynx\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

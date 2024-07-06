@@ -12,8 +12,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\ucupu\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\ucupu\\.nuget\\packages"
+      "C:\\Users\\Alkalynx\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Alkalynx\\.nuget\\packages"
     ],
     "configProperties": {
       "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": true,

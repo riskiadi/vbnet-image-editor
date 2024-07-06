@@ -4,9 +4,10 @@ Imports Renci.SshNet
 
 Public Class Form1
 
-    Private SftpHost As String = "10.10.7.12"
-    Private SftpUsername As String = "pd3"
-    Private SftpPassword As String = "p4$$w0rd"
+    Private SftpHost As String = My.Settings.SftpHost
+    Private SftpUsername As String = My.Settings.SftpUsername
+    Private SftpPassword As String = My.Settings.SftpPassword
+    Private serverUpdatePath As String = My.Settings.ServerUpdatePath
 
     Private hospitalAppStream As FileStream
     Private countScanningFile As Integer = 0
@@ -15,16 +16,8 @@ Public Class Form1
     Private basePath As String = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'MessageBox.Show(basePath)
-
-        Try
-            Process.Start($"app\ImageEditor.exe")
-        Catch ex As Exception
-            MessageBox.Show($"Tidak dapat membuka ImageEditor.exe, {ex}")
-        End Try
-
-        'Dim task As Task = Task.Run(Function() DownloadFileByArray())
-        'Await task
+        Dim task As Task = Task.Run(Function() DownloadFileByArray())
+        Await task
     End Sub
 
 
@@ -40,11 +33,16 @@ Public Class Form1
 
                                client.Connect()
 
-                               Dim files = client.ListDirectory("updtsim/Update Image Editor RME/")
+                               Dim files = client.ListDirectory(serverUpdatePath)
 
                                For Each file In files
+
+                                   If file.IsDirectory AndAlso file.Name.Equals("updater", StringComparison.OrdinalIgnoreCase) Then
+                                       Continue For
+                                   End If
+
                                    If Not file.Name.StartsWith(".") Then ' Skip hidden files and directories
-                                       Dim localFilePath As String = Path.Combine($"{basePath}\app\", file.Name)
+                                       Dim localFilePath As String = Path.Combine($"{basePath}\..\", file.Name)
                                        Using fileStream As New FileStream(localFilePath, FileMode.Create)
                                            client.DownloadFile(file.FullName, fileStream)
                                        End Using
@@ -62,12 +60,13 @@ Public Class Form1
 
     Private Sub OpenProgram()
         Try
-            Process.Start($"{basePath}\app\ImageEditor.exe")
+            Dim appPath As String = Path.Combine(basePath, "..\ImageEditor.exe")
+            appPath = Path.GetFullPath(appPath)
+            Process.Start(appPath)
             Me.Close()
         Catch ex As Exception
             MessageBox.Show($"Tidak dapat membuka ImageEditor.exe, {ex}")
         End Try
     End Sub
-
 
 End Class

@@ -30,9 +30,9 @@ Partial Class Form1
         ' Label1
         ' 
         Label1.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label1.Location = New Point(107, 0)
+        Label1.Location = New Point(121, 0)
         Label1.Name = "Label1"
-        Label1.Size = New Size(282, 101)
+        Label1.Size = New Size(382, 135)
         Label1.TabIndex = 0
         Label1.Text = "Mohon Tunggu Sedang Melakukan Update..."
         Label1.TextAlign = ContentAlignment.MiddleCenter
@@ -42,20 +42,22 @@ Partial Class Form1
         PictureBox1.Dock = DockStyle.Left
         PictureBox1.Image = My.Resources.Resources.loading
         PictureBox1.Location = New Point(0, 0)
+        PictureBox1.Margin = New Padding(3, 4, 3, 4)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(101, 101)
+        PictureBox1.Size = New Size(115, 135)
         PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox1.TabIndex = 1
         PictureBox1.TabStop = False
         ' 
         ' Form1
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(411, 101)
+        ClientSize = New Size(515, 135)
         Controls.Add(PictureBox1)
         Controls.Add(Label1)
         FormBorderStyle = FormBorderStyle.FixedSingle
+        Margin = New Padding(3, 4, 3, 4)
         MaximizeBox = False
         MinimizeBox = False
         Name = "Form1"

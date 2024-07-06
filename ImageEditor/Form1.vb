@@ -2,7 +2,7 @@
 Imports IniParser.Model
 Imports System.Reflection
 Imports System.IO
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports FxResources.System
 Public Class Form1
 
     '[config]
@@ -20,23 +20,24 @@ Public Class Form1
     'UserInput = ADMIN
     'CompInput = MSI
 
+    Private basePath As String = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+    Private iniPath As String = $"{basePath}\ImageEditor.ini"
+
     Private ReadOnly formController As FormController
     Dim parser As New FileIniDataParser()
-    Dim dataIni As IniData = parser.ReadFile("ImageEditor.ini")
 
-    Dim iniTemplatePath = dataIni("config")("TemplatePath")
-    Dim iniTemplateName = dataIni("config")("TemplateName")
-    Dim iniNamaTabel = dataIni("config")("NamaTabel")
-    Dim iniFilePath = dataIni("config")("FilePath")
-    Dim iniFileName = dataIni("config")("FileName")
-    Dim iniID = dataIni("config")("ID")
-    Dim iniKodeDoc = dataIni("config")("KodeDoc")
-    Dim iniNoReg = dataIni("config")("NoReg")
-    Dim iniNoPasien = dataIni("config")("NoPasien")
-    Dim iniKodeBagian = dataIni("config")("KodeBagian")
-    Dim iniUserInput = dataIni("config")("UserInput")
-    Dim iniCompInput = dataIni("config")("CompInput")
-
+    Dim iniTemplatePath = ""
+    Dim iniTemplateName = ""
+    Dim iniNamaTabel = ""
+    Dim iniFilePath = ""
+    Dim iniFileName = ""
+    Dim iniID = ""
+    Dim iniKodeDoc = ""
+    Dim iniNoReg = ""
+    Dim iniNoPasien = ""
+    Dim iniKodeBagian = ""
+    Dim iniUserInput = ""
+    Dim iniCompInput = ""
 
     Private isPenMode As Boolean = False
     Private isTextMode As Boolean = False
@@ -63,7 +64,44 @@ Public Class Form1
     Private texts As New List(Of DrawText)
 
     Public Sub New()
+
         formController = New FormController()
+
+        Try
+
+            CheckServerAppVersion()
+
+            If Not File.Exists(iniPath) Then
+                Try
+                    Using writer As New StreamWriter($"{basePath}\ImageEditor.ini")
+                        'writer.WriteLine("[Settings]")
+                        'writer.WriteLine("Setting1=Value1")
+                        'writer.WriteLine("Setting2=Value2")
+                        'writer.WriteLine("Setting3=Value3")
+                    End Using
+                Catch ex As Exception
+                    MessageBox.Show("Error, tidak dapat membuat file .ini: " & ex.Message)
+                End Try
+            End If
+
+            Dim dataIni As IniData = parser.ReadFile($"{basePath}\ImageEditor.ini")
+            iniTemplatePath = dataIni("config")("TemplatePath")
+            iniTemplateName = dataIni("config")("TemplateName")
+            iniNamaTabel = dataIni("config")("NamaTabel")
+            iniFilePath = dataIni("config")("FilePath")
+            iniFileName = dataIni("config")("FileName")
+            iniID = dataIni("config")("ID")
+            iniKodeDoc = dataIni("config")("KodeDoc")
+            iniNoReg = dataIni("config")("NoReg")
+            iniNoPasien = dataIni("config")("NoPasien")
+            iniKodeBagian = dataIni("config")("KodeBagian")
+            iniUserInput = dataIni("config")("UserInput")
+            iniCompInput = dataIni("config")("CompInput")
+        Catch ex As Exception
+            MessageBox.Show("File ImageEditor.INI error atau tidak ditemukan.", "Image Editor RME - Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Close()
+        End Try
+
         Me.DoubleBuffered = True
         InitializeComponent()
     End Sub
@@ -92,15 +130,13 @@ Public Class Form1
         ComboBox2.SelectedIndex = 12
         lineWeight = CInt(ComboBox1.SelectedItem)
         textSize = CInt(ComboBox2.SelectedItem)
-        'PictureBox1.Image = New Bitmap("image.jpg")
         PictureBox2.BackColor = lineColor
 
-        CheckAppVersion()
 
         Dim localPath As String = $"{AppDomain.CurrentDomain.BaseDirectory}\image.jpg"
         Try
             DownloadImage(iniTemplatePath, iniTemplateName, localPath)
-            image = New Bitmap("image.jpg")
+            image = New Bitmap(localPath)
             PictureBox1.Image = image
         Catch ex As Exception
             MessageBox.Show("Gagal mengunduh gambar: " & ex.Message)
@@ -506,7 +542,7 @@ Public Class Form1
         Return versionInfo.Version.ToString()
     End Function
 
-    Private Async Sub CheckAppVersion()
+    Private Async Sub CheckServerAppVersion()
         Try
             Dim result = Await formController.GetCurentVersion()
             If result.Code = 200 Then
@@ -516,14 +552,22 @@ Public Class Form1
                 Dim comparisonResult As Integer = localVersion.CompareTo(serverVersion)
 
                 If comparisonResult < 0 Then
-                    MessageBox.Show($"Butuh Update")
+                    Try
+                        Dim appPath As String = Path.Combine(basePath, "updater\UpdaterImageEditor.exe")
+                        appPath = Path.GetFullPath(appPath)
+                        Process.Start(appPath)
+                        Me.Close()
+                    Catch ex As Exception
+                        MessageBox.Show($"Updater tidak ditemukan (updater/UpdaterImageEditor.exe), {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        Close()
+                    End Try
                 End If
 
             Else
 
             End If
         Catch ex As Exception
-            MessageBox.Show($"An error occurred during CheckAppVersion(). {vbCrLf}{vbCrLf} {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show($"An error occurred during CheckServerAppVersion(). {vbCrLf}{vbCrLf} {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             'Button1.Enabled = True
             'TextBox1.Enabled = True

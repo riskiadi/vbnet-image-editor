@@ -1,13 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\",
+  "WorkspaceRootPath": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|c:\\users\\ucupu\\documents\\vbnet-image-editor\\updaterimageeditor\\updaterimageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "AbsoluteMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\updaterimageeditor\\updaterimageeditor\\my project\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
+      "RelativeMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|solutionrelative:updaterimageeditor\\my project\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\updaterimageeditor\\updaterimageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|solutionrelative:updaterimageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|c:\\users\\ucupu\\documents\\vbnet-image-editor\\updaterimageeditor\\updaterimageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "AbsoluteMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|c:\\users\\alkalynx\\documents\\vbnet-image-editor\\updaterimageeditor\\updaterimageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
       "RelativeMoniker": "D:0:0:{272D0EFD-F9D4-41C2-B35D-4F01F8ABDB2C}|UpdaterImageEditor\\UpdaterImageEditor.vbproj|solutionrelative:updaterimageeditor\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
     }
   ],
@@ -18,28 +22,40 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Form1.vb",
-              "DocumentMoniker": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb",
+              "DocumentMoniker": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb",
               "RelativeDocumentMoniker": "UpdaterImageEditor\\Form1.vb",
-              "ToolTip": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb",
+              "ToolTip": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb",
               "RelativeToolTip": "UpdaterImageEditor\\Form1.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAqAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAA1AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-07-05T23:09:29.542Z",
+              "WhenOpened": "2024-07-06T03:39:42.843Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "Settings.settings",
+              "DocumentMoniker": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\My Project\\Settings.settings",
+              "RelativeDocumentMoniker": "UpdaterImageEditor\\My Project\\Settings.settings",
+              "ToolTip": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\My Project\\Settings.settings",
+              "RelativeToolTip": "UpdaterImageEditor\\My Project\\Settings.settings",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002767|",
+              "WhenOpened": "2024-07-06T05:52:34.226Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Form1.vb [Design]",
-              "DocumentMoniker": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb",
+              "DocumentMoniker": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb",
               "RelativeDocumentMoniker": "UpdaterImageEditor\\Form1.vb",
-              "ToolTip": "C:\\Users\\ucupu\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb [Design]",
+              "ToolTip": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\Form1.vb [Design]",
               "RelativeToolTip": "UpdaterImageEditor\\Form1.vb [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-07-05T22:54:27.805Z",
