@@ -1,0 +1,10 @@
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\bin\Release\net8.0-windows\publish\ImageEditor.exe
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\bin\Release\net8.0-windows\publish\ImageEditor.dll
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\bin\Release\net8.0-windows\publish\ImageEditor.deps.json
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\bin\Release\net8.0-windows\publish\ImageEditor.runtimeconfig.json
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\bin\Release\net8.0-windows\publish\ImageEditor.dll.config
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\bin\Release\net8.0-windows\publish\ImageEditor.pdb
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\bin\Release\net8.0-windows\publish\INIFileParserDotNetCore.dll
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\bin\Release\net8.0-windows\publish\Newtonsoft.Json.dll
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\bin\Release\net8.0-windows\publish\Renci.SshNet.dll
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\bin\Release\net8.0-windows\publish\SshNet.Security.Cryptography.dll

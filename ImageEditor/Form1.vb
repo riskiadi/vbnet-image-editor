@@ -15,6 +15,7 @@ Public Class Form1
     'FilePath = \\10.10.7.12\shareimages\sitemarking\
     'FileName = uploaded.jpg
     'ID = 1234567890
+    'IDHeadDoc = 123ABC
     'KodeDoc = EROP-1
     'NoReg = 1234567890
     'NoPasien = 665566
@@ -36,6 +37,7 @@ Public Class Form1
     Dim iniFilePath = ""
     Dim iniFileName = ""
     Dim iniID = ""
+    Dim iniIDHeadDoc = ""
     Dim iniKodeDoc = ""
     Dim iniNoReg = ""
     Dim iniNoPasien = ""
@@ -95,6 +97,7 @@ Public Class Form1
             iniFilePath = dataIni("config")("FilePath")
             iniFileName = dataIni("config")("FileName")
             iniID = dataIni("config")("ID")
+            iniIDHeadDoc = dataIni("config")("IDHeadDoc")
             iniKodeDoc = dataIni("config")("KodeDoc")
             iniNoReg = dataIni("config")("NoReg")
             iniNoPasien = dataIni("config")("NoPasien")
@@ -402,16 +405,17 @@ Public Class Form1
             Dim localFilePath As String = $"{AppDomain.CurrentDomain.BaseDirectory}\exported.jpg"
             UploadImage(localFilePath, iniFilePath, iniFileName)
             Dim postData As String = JsonConvert.SerializeObject(New With {
-            .tableName = iniNamaTabel,
-            .filePath = iniFilePath,
-            .fileName = iniFileName,
-            .ID = iniID,
-            .kodeDoc = iniKodeDoc,
-            .noReg = iniNoReg,
-            .noPasien = iniNoPasien,
-            .kodeBagian = iniKodeBagian,
-            .userInput = iniUserInput,
-            .compInput = iniCompInput
+                .tableName = iniNamaTabel,
+                .filePath = iniFilePath,
+                .fileName = iniFileName,
+                .ID = iniID,
+                .IDHeadDoc = iniIDHeadDoc,
+                .kodeDoc = iniKodeDoc,
+                .noReg = iniNoReg,
+                .noPasien = iniNoPasien,
+                .kodeBagian = iniKodeBagian,
+                .userInput = iniUserInput,
+                .compInput = iniCompInput
              })
             Dim response = Await formController.PostRmeDataImage(postData)
             If response.Code = 200 Or response.Code = 201 Then

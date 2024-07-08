@@ -164,19 +164,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Alkalynx\\.nuget\\packages\\": {}
+    "C:\\Users\\ZYREX\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
+      "projectUniqueName": "C:\\Users\\ZYREX\\Desktop\\imgedtr\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
       "projectName": "ImageEditor",
-      "projectPath": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
-      "packagesPath": "C:\\Users\\Alkalynx\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Alkalynx\\Documents\\vbnet-image-editor\\ImageEditor\\obj\\",
+      "projectPath": "C:\\Users\\ZYREX\\Desktop\\imgedtr\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
+      "packagesPath": "C:\\Users\\ZYREX\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ZYREX\\Desktop\\imgedtr\\vbnet-image-editor\\ImageEditor\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Alkalynx\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ZYREX\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -196,11 +196,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {

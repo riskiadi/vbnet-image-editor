@@ -16,7 +16,7 @@ Imports System.Reflection
 <Assembly: System.Reflection.AssemblyCompanyAttribute("ImageEditor"),  _
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Debug"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f73f22d9314f2c64693cac49f739351790ae4530"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b12899611694bf79e7b7f4e01aade53ff96827bd"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("ImageEditor"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("ImageEditor"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0"),  _
