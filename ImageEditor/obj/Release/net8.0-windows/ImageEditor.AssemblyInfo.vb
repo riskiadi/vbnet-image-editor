@@ -13,13 +13,16 @@ Option Explicit On
 
 Imports System
 Imports System.Reflection
-<Assembly: System.Reflection.AssemblyCompanyAttribute("ImageEditor"),  _
+<Assembly: System.Reflection.AssemblyCompanyAttribute("SIMRS - RSUD Dr Adhyatma MPH"),  _
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Release"),  _
+ Assembly: System.Reflection.AssemblyCopyrightAttribute("Rizki Adi Saputra"),  _
+ Assembly: System.Reflection.AssemblyDescriptionAttribute("Aplikasi untuk pengeditan gambar"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b12899611694bf79e7b7f4e01aade53ff96827bd"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+06e5c9de9159f7efa15d0920183df72df0821039"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("ImageEditor"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("ImageEditor"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0"),  _
+ Assembly: System.Resources.NeutralResourcesLanguageAttribute("id"),  _
  Assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0"),  _
  Assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")> 
 

@@ -1,0 +1,7 @@
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\UpdaterImageEditor.exe
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\UpdaterImageEditor.dll
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\UpdaterImageEditor.deps.json
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\UpdaterImageEditor.runtimeconfig.json
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\UpdaterImageEditor.dll.config
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\UpdaterImageEditor.pdb
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\Renci.SshNet.dll

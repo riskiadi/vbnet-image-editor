@@ -16,7 +16,7 @@ Imports System.Reflection
 <Assembly: System.Reflection.AssemblyCompanyAttribute("UpdaterImageEditor"),  _
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Release"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+66cf0a4b2848b63624558ce4eb9fa28ec62772f0"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+06e5c9de9159f7efa15d0920183df72df0821039"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("UpdaterImageEditor"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("UpdaterImageEditor"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0"),  _

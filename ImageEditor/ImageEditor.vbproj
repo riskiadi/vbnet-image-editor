@@ -9,6 +9,13 @@
     <ApplicationIcon>edit_100px.ico</ApplicationIcon>
     <FileVersion>1.0.0.0</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+    <NeutralLanguage>id</NeutralLanguage>
+    <PackageIcon>pencil_32px.png</PackageIcon>
+    <Copyright>Rizki Adi Saputra</Copyright>
+    <Description>Aplikasi untuk pengeditan gambar</Description>
+    <Company>SIMRS - RSUD Dr Adhyatma MPH</Company>
+    <Authors>Rizki Adi Saputra</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +26,13 @@
     <Import Include="System.Data" />
     <Import Include="System.Drawing" />
     <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\pencil_32px.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

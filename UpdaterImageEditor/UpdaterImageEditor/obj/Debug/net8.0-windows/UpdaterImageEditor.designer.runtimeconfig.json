@@ -12,8 +12,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\Alkalynx\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\Alkalynx\\.nuget\\packages"
+      "C:\\Users\\ZYREX\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\ZYREX\\.nuget\\packages"
     ],
     "configProperties": {
       "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": true,

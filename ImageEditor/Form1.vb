@@ -4,7 +4,8 @@ Imports System.Reflection
 Imports System.IO
 Imports FxResources.System
 Imports Newtonsoft.Json
-Imports Renci.SshNet.Sftp
+Imports System.Runtime.InteropServices
+Imports System.Diagnostics
 Public Class Form1
 
     '[config]
@@ -23,7 +24,22 @@ Public Class Form1
     'UserInput = ADMIN
     'CompInput = MSI
 
-    Private Declare Function SetForegroundWindow Lib "user32" (ByVal hwnd As Long) As IntPtr
+    ' Deklarasi fungsi API
+    <DllImport("user32.dll", SetLastError:=True)>
+    Private Shared Function FindWindowEx(hwndParent As IntPtr, hwndChildAfter As IntPtr, lpszClass As String, lpszWindow As String) As IntPtr
+    End Function
+
+    <DllImport("user32.dll", SetLastError:=True)>
+    Private Shared Function GetWindowThreadProcessId(hWnd As IntPtr, ByRef lpdwProcessId As UInteger) As UInteger
+    End Function
+
+    <DllImport("user32.dll")>
+    Private Shared Function SetForegroundWindow(hWnd As IntPtr) As Boolean
+    End Function
+
+    <DllImport("user32.dll")>
+    Private Shared Function ShowWindow(hWnd As IntPtr, nCmdShow As Integer) As Boolean
+    End Function
 
     Private basePath As String = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
     Private iniPath As String = $"{basePath}\ImageEditor.ini"
@@ -80,10 +96,20 @@ Public Class Form1
             If Not File.Exists(iniPath) Then
                 Try
                     Using writer As New StreamWriter($"{basePath}\ImageEditor.ini")
-                        'writer.WriteLine("[Settings]")
-                        'writer.WriteLine("Setting1=Value1")
-                        'writer.WriteLine("Setting2=Value2")
-                        'writer.WriteLine("Setting3=Value3")
+                        writer.WriteLine("[config]")
+                        writer.WriteLine("TemplatePath=\\10.10.7.12\shareimages\sitemarking\template")
+                        writer.WriteLine("TemplateName=GIGI (PALMER SYSTEM).jpg")
+                        writer.WriteLine("NamaTabel=RME_IMAGES")
+                        writer.WriteLine("FilePath=\\10.10.7.12\shareimages\sitemarking\")
+                        writer.WriteLine("FileName=uploaded.jpg")
+                        writer.WriteLine("ID=0")
+                        writer.WriteLine("IDHeadDoc=0")
+                        writer.WriteLine("KodeDoc=0")
+                        writer.WriteLine("NoReg=0")
+                        writer.WriteLine("NoPasien=0")
+                        writer.WriteLine("KodeBagian=0")
+                        writer.WriteLine("UserInput=0")
+                        writer.WriteLine("CompInput=0")
                     End Using
                 Catch ex As Exception
                     MessageBox.Show("Error, tidak dapat membuat file .ini: " & ex.Message)
@@ -134,7 +160,7 @@ Public Class Form1
         ComboBox1.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25})
         ComboBox2.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30})
         ComboBox1.SelectedIndex = 12
-        ComboBox2.SelectedIndex = 12
+        ComboBox2.SelectedIndex = 8
         lineWeight = CInt(ComboBox1.SelectedItem)
         textSize = CInt(ComboBox2.SelectedItem)
         PictureBox2.BackColor = lineColor
@@ -579,18 +605,7 @@ Public Class Form1
 
                 If comparisonResult < 0 Then
                     Try
-
-                        Dim p As New Process
-                        p.StartInfo.FileName = Path.Combine(basePath, "updater\UpdaterImageEditor.exe")
-                        p.Start()
-                        SetForegroundWindow(p.Handle)
-
-
-
-                        'Dim appPath As String = Path.Combine(basePath, "updater\UpdaterImageEditor.exe")
-                        'appPath = Path.GetFullPath(appPath)
-                        'Process.Start(appPath)
-                        Me.Close()
+                        OpenUpdaterApp()
                     Catch ex As Exception
                         MessageBox.Show($"Updater tidak ditemukan (updater/UpdaterImageEditor.exe), {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                         Close()
@@ -619,5 +634,34 @@ Public Class Form1
         Dim remoteFilePath As String = Path.Combine(sharedFolderPath, remoteFileName)
         File.Copy(localFilePath, remoteFilePath, True)
     End Sub
+
+    Private Sub OpenUpdaterApp()
+        Dim appPath As String = Path.Combine(basePath, "updater\UpdaterImageEditor.exe")
+        Dim proc As Process = Process.Start(appPath)
+        Threading.Thread.Sleep(100)
+        Dim hWnd As IntPtr = FindWindowByProcessId(proc.Id)
+        If hWnd <> IntPtr.Zero Then
+            ' Memfokuskan jendela aplikasi
+            SetForegroundWindow(hWnd)
+        End If
+        Close()
+    End Sub
+
+    Private Function FindWindowByProcessId(processId As Integer) As IntPtr
+        Dim hWnd As IntPtr = IntPtr.Zero
+        Do
+            hWnd = FindWindowEx(IntPtr.Zero, hWnd, Nothing, Nothing)
+            If hWnd = IntPtr.Zero Then Exit Do
+
+            Dim windowProcessId As UInteger
+            GetWindowThreadProcessId(hWnd, windowProcessId)
+
+            If windowProcessId = processId Then
+                Return hWnd
+            End If
+        Loop While hWnd <> IntPtr.Zero
+
+        Return IntPtr.Zero
+    End Function
 
 End Class

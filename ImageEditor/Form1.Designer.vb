@@ -47,12 +47,12 @@ Partial Class Form1
         ' PictureBox1
         ' 
         PictureBox1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        PictureBox1.BackColor = Color.White
+        PictureBox1.BackColor = Color.Black
         PictureBox1.BorderStyle = BorderStyle.FixedSingle
-        PictureBox1.Location = New Point(14, 16)
-        PictureBox1.Margin = New Padding(3, 4, 3, 4)
+        PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), Image)
+        PictureBox1.Location = New Point(12, 12)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(803, 982)
+        PictureBox1.Size = New Size(703, 737)
         PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox1.TabIndex = 0
         PictureBox1.TabStop = False
@@ -62,10 +62,9 @@ Partial Class Form1
         TextBox1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         TextBox1.BorderStyle = BorderStyle.FixedSingle
         TextBox1.Font = New Font("Arial Narrow", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        TextBox1.Location = New Point(856, 736)
-        TextBox1.Margin = New Padding(3, 4, 3, 4)
+        TextBox1.Location = New Point(749, 552)
         TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(193, 30)
+        TextBox1.Size = New Size(169, 26)
         TextBox1.TabIndex = 2
         TextBox1.Visible = False
         ' 
@@ -73,10 +72,10 @@ Partial Class Form1
         ' 
         Button7.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Button7.Image = My.Resources.Resources.save_32px
-        Button7.Location = New Point(493, 152)
-        Button7.Margin = New Padding(3, 4, 11, 4)
+        Button7.Location = New Point(431, 114)
+        Button7.Margin = New Padding(3, 3, 10, 3)
         Button7.Name = "Button7"
-        Button7.Size = New Size(91, 91)
+        Button7.Size = New Size(80, 68)
         Button7.TabIndex = 9
         Button7.Text = "Save"
         Button7.TextAlign = ContentAlignment.BottomCenter
@@ -89,19 +88,19 @@ Partial Class Form1
         ComboBox1.DropDownStyle = ComboBoxStyle.DropDownList
         ComboBox1.FormatString = "N0"
         ComboBox1.FormattingEnabled = True
-        ComboBox1.Location = New Point(15, 71)
-        ComboBox1.Margin = New Padding(11, 4, 3, 4)
+        ComboBox1.Location = New Point(13, 53)
+        ComboBox1.Margin = New Padding(10, 3, 3, 3)
         ComboBox1.Name = "ComboBox1"
-        ComboBox1.Size = New Size(119, 28)
+        ComboBox1.Size = New Size(105, 23)
         ComboBox1.TabIndex = 10
         ' 
         ' Label1
         ' 
         Label1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        Label1.Location = New Point(15, 47)
-        Label1.Margin = New Padding(11, 0, 3, 0)
+        Label1.Location = New Point(13, 35)
+        Label1.Margin = New Padding(10, 0, 3, 0)
         Label1.Name = "Label1"
-        Label1.Size = New Size(83, 20)
+        Label1.Size = New Size(73, 15)
         Label1.TabIndex = 11
         Label1.Text = "Line Weight:"
         ' 
@@ -109,28 +108,27 @@ Partial Class Form1
         ' 
         PictureBox2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         PictureBox2.BackColor = Color.Black
-        PictureBox2.Location = New Point(151, 71)
-        PictureBox2.Margin = New Padding(3, 4, 3, 4)
+        PictureBox2.Location = New Point(132, 53)
         PictureBox2.Name = "PictureBox2"
-        PictureBox2.Size = New Size(26, 31)
+        PictureBox2.Size = New Size(23, 23)
         PictureBox2.TabIndex = 12
         PictureBox2.TabStop = False
         ' 
         ' Label2
         ' 
         Label2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        Label2.Location = New Point(147, 47)
+        Label2.Location = New Point(129, 35)
         Label2.Name = "Label2"
-        Label2.Size = New Size(83, 20)
+        Label2.Size = New Size(73, 15)
         Label2.TabIndex = 13
         Label2.Text = "Line Color:"
         ' 
         ' Label3
         ' 
         Label3.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        Label3.Location = New Point(280, 47)
+        Label3.Location = New Point(245, 35)
         Label3.Name = "Label3"
-        Label3.Size = New Size(83, 20)
+        Label3.Size = New Size(73, 15)
         Label3.TabIndex = 14
         Label3.Text = "Text Size:"
         ' 
@@ -140,18 +138,17 @@ Partial Class Form1
         ComboBox2.DropDownStyle = ComboBoxStyle.DropDownList
         ComboBox2.FormatString = "N0"
         ComboBox2.FormattingEnabled = True
-        ComboBox2.Location = New Point(280, 71)
-        ComboBox2.Margin = New Padding(3, 4, 3, 4)
+        ComboBox2.Location = New Point(245, 53)
         ComboBox2.Name = "ComboBox2"
-        ComboBox2.Size = New Size(119, 28)
+        ComboBox2.Size = New Size(105, 23)
         ComboBox2.TabIndex = 15
         ' 
         ' Label4
         ' 
         Label4.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        Label4.Location = New Point(413, 47)
+        Label4.Location = New Point(361, 35)
         Label4.Name = "Label4"
-        Label4.Size = New Size(83, 20)
+        Label4.Size = New Size(73, 15)
         Label4.TabIndex = 16
         Label4.Text = "Text Color:"
         ' 
@@ -159,10 +156,9 @@ Partial Class Form1
         ' 
         PictureBox3.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         PictureBox3.BackColor = Color.Black
-        PictureBox3.Location = New Point(418, 71)
-        PictureBox3.Margin = New Padding(3, 4, 3, 4)
+        PictureBox3.Location = New Point(366, 53)
         PictureBox3.Name = "PictureBox3"
-        PictureBox3.Size = New Size(26, 31)
+        PictureBox3.Size = New Size(23, 23)
         PictureBox3.TabIndex = 17
         PictureBox3.TabStop = False
         ' 
@@ -181,11 +177,9 @@ Partial Class Form1
         GroupBox1.Controls.Add(PictureBox2)
         GroupBox1.Controls.Add(Label3)
         GroupBox1.Controls.Add(Label2)
-        GroupBox1.Location = New Point(832, 16)
-        GroupBox1.Margin = New Padding(3, 4, 3, 4)
+        GroupBox1.Location = New Point(728, 12)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Padding = New Padding(3, 4, 3, 4)
-        GroupBox1.Size = New Size(599, 265)
+        GroupBox1.Size = New Size(524, 199)
         GroupBox1.TabIndex = 18
         GroupBox1.TabStop = False
         GroupBox1.Text = "Tools"
@@ -193,13 +187,12 @@ Partial Class Form1
         ' Button6
         ' 
         Button6.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        Button6.Image = My.Resources.Resources.type_32px
-        Button6.Location = New Point(126, 152)
-        Button6.Margin = New Padding(3, 4, 3, 4)
+        Button6.Image = My.Resources.Resources.type_24px
+        Button6.Location = New Point(79, 122)
         Button6.Name = "Button6"
-        Button6.Size = New Size(91, 91)
+        Button6.Size = New Size(60, 60)
         Button6.TabIndex = 8
-        Button6.Text = "Text Mode"
+        Button6.Text = "Text"
         Button6.TextAlign = ContentAlignment.BottomCenter
         Button6.TextImageRelation = TextImageRelation.ImageAboveText
         Button6.UseVisualStyleBackColor = True
@@ -208,12 +201,11 @@ Partial Class Form1
         ' 
         Button5.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Button5.Image = My.Resources.Resources.erase_32px
-        Button5.Location = New Point(237, 152)
-        Button5.Margin = New Padding(3, 4, 3, 4)
+        Button5.Location = New Point(145, 122)
         Button5.Name = "Button5"
-        Button5.Size = New Size(91, 91)
+        Button5.Size = New Size(60, 60)
         Button5.TabIndex = 7
-        Button5.Text = "Erase Mode"
+        Button5.Text = "Eraser"
         Button5.TextAlign = ContentAlignment.BottomCenter
         Button5.TextImageRelation = TextImageRelation.ImageAboveText
         Button5.UseVisualStyleBackColor = True
@@ -222,29 +214,28 @@ Partial Class Form1
         ' 
         Button4.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Button4.BackColor = Color.Transparent
-        Button4.Image = My.Resources.Resources.pencil_32px
-        Button4.Location = New Point(15, 152)
-        Button4.Margin = New Padding(11, 4, 3, 4)
+        Button4.Image = My.Resources.Resources.up_right_32px
+        Button4.Location = New Point(13, 122)
+        Button4.Margin = New Padding(10, 3, 3, 3)
         Button4.Name = "Button4"
-        Button4.Size = New Size(91, 91)
+        Button4.Size = New Size(60, 60)
         Button4.TabIndex = 6
-        Button4.Text = "Pen Mode"
+        Button4.Text = "Arrow"
         Button4.TextAlign = ContentAlignment.BottomCenter
         Button4.TextImageRelation = TextImageRelation.ImageAboveText
         Button4.UseVisualStyleBackColor = False
         ' 
         ' Form1
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoSize = True
         BackColor = Color.WhiteSmoke
-        ClientSize = New Size(1445, 1015)
+        ClientSize = New Size(1264, 761)
         Controls.Add(GroupBox1)
         Controls.Add(TextBox1)
         Controls.Add(PictureBox1)
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
-        Margin = New Padding(3, 4, 3, 4)
         MaximizeBox = False
         MinimizeBox = False
         Name = "Form1"
