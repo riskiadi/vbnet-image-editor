@@ -11,5 +11,8 @@
     <Setting Name="TemplatePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">\\10.10.7.12\shareimages\sitemarking\template</Value>
     </Setting>
+    <Setting Name="AlwaysAddComment" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

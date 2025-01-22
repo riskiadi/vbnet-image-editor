@@ -35,6 +35,7 @@ Partial Class Form1
         Label4 = New Label()
         PictureBox3 = New PictureBox()
         GroupBox1 = New GroupBox()
+        CheckBox1 = New CheckBox()
         Button6 = New Button()
         Button5 = New Button()
         Button4 = New Button()
@@ -165,6 +166,7 @@ Partial Class Form1
         ' GroupBox1
         ' 
         GroupBox1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        GroupBox1.Controls.Add(CheckBox1)
         GroupBox1.Controls.Add(ComboBox2)
         GroupBox1.Controls.Add(Button7)
         GroupBox1.Controls.Add(PictureBox3)
@@ -179,16 +181,26 @@ Partial Class Form1
         GroupBox1.Controls.Add(Label2)
         GroupBox1.Location = New Point(728, 12)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(524, 199)
+        GroupBox1.Size = New Size(524, 210)
         GroupBox1.TabIndex = 18
         GroupBox1.TabStop = False
         GroupBox1.Text = "Tools"
+        ' 
+        ' CheckBox1
+        ' 
+        CheckBox1.AutoSize = True
+        CheckBox1.Location = New Point(13, 104)
+        CheckBox1.Name = "CheckBox1"
+        CheckBox1.Size = New Size(150, 19)
+        CheckBox1.TabIndex = 18
+        CheckBox1.Text = "Always add a comment"
+        CheckBox1.UseVisualStyleBackColor = True
         ' 
         ' Button6
         ' 
         Button6.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Button6.Image = My.Resources.Resources.type_24px
-        Button6.Location = New Point(79, 122)
+        Button6.Location = New Point(93, 139)
         Button6.Name = "Button6"
         Button6.Size = New Size(60, 60)
         Button6.TabIndex = 8
@@ -201,7 +213,7 @@ Partial Class Form1
         ' 
         Button5.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Button5.Image = My.Resources.Resources.erase_32px
-        Button5.Location = New Point(145, 122)
+        Button5.Location = New Point(173, 139)
         Button5.Name = "Button5"
         Button5.Size = New Size(60, 60)
         Button5.TabIndex = 7
@@ -215,7 +227,7 @@ Partial Class Form1
         Button4.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Button4.BackColor = Color.Transparent
         Button4.Image = My.Resources.Resources.up_right_32px
-        Button4.Location = New Point(13, 122)
+        Button4.Location = New Point(13, 139)
         Button4.Margin = New Padding(10, 3, 3, 3)
         Button4.Name = "Button4"
         Button4.Size = New Size(60, 60)
@@ -247,6 +259,7 @@ Partial Class Form1
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).EndInit()
         GroupBox1.ResumeLayout(False)
+        GroupBox1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -266,5 +279,6 @@ Partial Class Form1
     Friend WithEvents Button6 As Button
     Friend WithEvents Button5 As Button
     Friend WithEvents Button4 As Button
+    Friend WithEvents CheckBox1 As CheckBox
 
 End Class

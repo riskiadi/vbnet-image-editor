@@ -89,6 +89,18 @@ Namespace My
                 Me("TemplatePath") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property AlwaysAddComment() As Boolean
+            Get
+                Return CType(Me("AlwaysAddComment"),Boolean)
+            End Get
+            Set
+                Me("AlwaysAddComment") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

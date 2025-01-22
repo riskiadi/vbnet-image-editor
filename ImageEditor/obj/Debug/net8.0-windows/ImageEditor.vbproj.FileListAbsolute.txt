@@ -76,3 +76,4 @@ C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\obj\Debug\net8.0-w
 C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\obj\Debug\net8.0-windows\ImageEditor.pdb
 C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\obj\Debug\net8.0-windows\ImageEditor.genruntimeconfig.cache
 C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\obj\Debug\net8.0-windows\ref\ImageEditor.dll
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\ImageEditor\obj\Debug\net8.0-windows\ImageEditor.FormComment.resources

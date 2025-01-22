@@ -61,6 +61,8 @@ Public Class Form1
     Dim iniUserInput = ""
     Dim iniCompInput = ""
 
+    Dim appVersion = Assembly.GetExecutingAssembly().GetName().Version
+
     Private isPenMode As Boolean = False
     Private isTextMode As Boolean = False
     Private isEraseMode As Boolean = False
@@ -72,6 +74,8 @@ Public Class Form1
     Private textFont As String = "Arial"
     Private textColor As Color = Color.Black
 
+    Private commentTextSize As Integer = 10
+
     Private isDragging As Boolean = False
     Private isEditingEndPoint As Boolean = False
     Private isEditingStartPoint As Boolean = False
@@ -80,6 +84,10 @@ Public Class Form1
     Private startPoint As Point
     Private endPoint As Point
     Private textPosition As Point
+    Private WithEvents redrawTimer As New Timer() With {.Interval = 16} ' 60 FPS
+    Private pendingRedraw As Boolean = False
+    Private lastMouseX As Integer = -1
+    Private lastMouseY As Integer = -1
 
     Private image As Bitmap
     Private arrows As New List(Of DrawArrow)
@@ -88,6 +96,10 @@ Public Class Form1
     Public Sub New()
 
         formController = New FormController()
+
+        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
+        Me.SetStyle(ControlStyles.UserPaint, True)
+        Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
 
         Try
 
@@ -144,6 +156,10 @@ Public Class Form1
         Public EndPoint As Point
         Public LineWeight As Integer
         Public LineColor As Color
+        Public Comment As String
+        Public CommentTextColor As Color
+        Public CommentTextSize As Integer
+        Public CommentBgColor As Color
     End Structure
 
     Public Structure DrawText
@@ -155,11 +171,16 @@ Public Class Form1
     End Structure
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = $"Editor Gambar RME {GetAppVersion()} (Beta)"
+
+        Me.Text = $"Editor Gambar RME {appVersion.Major}.{appVersion.Minor}.{appVersion.Build} (Beta)"
+
+        CheckBox1.Checked = My.Settings.AlwaysAddComment
+
+        AddHandler redrawTimer.Tick, AddressOf redrawTimer_Tick
 
         ComboBox1.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25})
         ComboBox2.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30})
-        ComboBox1.SelectedIndex = 12
+        ComboBox1.SelectedIndex = 10
         ComboBox2.SelectedIndex = 8
         lineWeight = CInt(ComboBox1.SelectedItem)
         textSize = CInt(ComboBox2.SelectedItem)
@@ -179,7 +200,7 @@ Public Class Form1
 
     Private Sub PictureBox1_MouseDown(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseDown
 
-        If isPenMode = True Then
+        If isPenMode Then
 
             If e.Button = MouseButtons.Left Then
                 selectedArrowIndex = GetSelectedArrowIndex(ConvertMouseToImageCoords(e.Location))
@@ -197,7 +218,7 @@ Public Class Form1
                 End If
             End If
 
-        ElseIf isTextMode = True Then
+        ElseIf isTextMode Then
 
             If e.Button = MouseButtons.Left Then
 
@@ -227,17 +248,9 @@ Public Class Form1
             If e.Button = MouseButtons.Left Then
                 selectedArrowIndex = GetSelectedArrowIndex(ConvertMouseToImageCoords(e.Location))
                 If selectedArrowIndex >= 0 AndAlso selectedArrowIndex < arrows.Count Then
-
                     arrows.RemoveAt(selectedArrowIndex)
                     selectedArrowIndex = -1
                     RedrawImage()
-
-                    'Dim arrow = arrows(selectedArrowIndex)
-                    'If IsNearPoint(ConvertMouseToImageCoords(e.Location), arrow.StartPoint) Then
-                    '    isEditingStartPoint = True
-                    'ElseIf IsNearPoint(ConvertMouseToImageCoords(e.Location), arrow.EndPoint) Then
-                    '    isEditingEndPoint = True
-                    'End If
                 End If
 
                 selectedTextIndex = GetSelectedTextIndex(ConvertMouseToImageCoords(e.Location))
@@ -279,6 +292,7 @@ Public Class Form1
     End Sub
 
     Private Sub PictureBox1_MouseMove(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseMove
+
         If isPenMode = True Then
             selectedArrowIndex = GetSelectedArrowIndex(ConvertMouseToImageCoords(e.Location))
             If selectedArrowIndex >= 0 Then
@@ -295,23 +309,149 @@ Public Class Form1
             End If
         End If
 
-        If isDragging Then
-            endPoint = ConvertMouseToImageCoords(e.Location)
+
+        Dim moveThreshold As Integer = If(isEditingStartPoint OrElse isEditingEndPoint, 3, 15)
+
+        If Math.Abs(e.X - lastMouseX) > moveThreshold OrElse Math.Abs(e.Y - lastMouseY) > moveThreshold Then
+
+            lastMouseX = e.X
+            lastMouseY = e.Y
+
+            If isDragging Then
+                endPoint = ConvertMouseToImageCoords(e.Location)
+                pendingRedraw = True
+                If Not redrawTimer.Enabled Then redrawTimer.Start()
+            ElseIf isEditingStartPoint AndAlso selectedArrowIndex >= 0 Then
+                Dim arrow = arrows(selectedArrowIndex)
+                If arrow.StartPoint <> ConvertMouseToImageCoords(e.Location) Then
+                    arrow.StartPoint = ConvertMouseToImageCoords(e.Location)
+                    arrows(selectedArrowIndex) = arrow
+                    pendingRedraw = True
+                End If
+                If Not redrawTimer.Enabled Then redrawTimer.Start()
+            ElseIf isEditingEndPoint AndAlso selectedArrowIndex >= 0 Then
+                Dim arrow = arrows(selectedArrowIndex)
+                If arrow.EndPoint <> ConvertMouseToImageCoords(e.Location) Then
+                    arrow.EndPoint = ConvertMouseToImageCoords(e.Location)
+                    arrows(selectedArrowIndex) = arrow
+                    pendingRedraw = True
+                End If
+                If Not redrawTimer.Enabled Then redrawTimer.Start()
+            End If
+
+        End If
+
+
+
+
+        'Dim moveThreshold As Integer = 15 ' Minimum perubahan posisi dalam piksel
+        'If Math.Abs(e.X - lastMouseX) > moveThreshold OrElse Math.Abs(e.Y - lastMouseY) > moveThreshold Then
+        '    lastMouseX = e.X
+        '    lastMouseY = e.Y
+
+        '    If isDragging Then
+        '        endPoint = ConvertMouseToImageCoords(e.Location)
+        '        pendingRedraw = True
+        '        If Not redrawTimer.Enabled Then redrawTimer.Start()
+        '    ElseIf isEditingStartPoint AndAlso selectedArrowIndex >= 0 Then
+        '        Dim arrow = arrows(selectedArrowIndex)
+        '        arrow.StartPoint = ConvertMouseToImageCoords(e.Location)
+        '        arrows(selectedArrowIndex) = arrow
+        '        pendingRedraw = True
+        '        If Not redrawTimer.Enabled Then redrawTimer.Start()
+        '    ElseIf isEditingEndPoint AndAlso selectedArrowIndex >= 0 Then
+        '        Dim arrow = arrows(selectedArrowIndex)
+        '        arrow.EndPoint = ConvertMouseToImageCoords(e.Location)
+        '        arrows(selectedArrowIndex) = arrow
+        '        pendingRedraw = True
+        '        If Not redrawTimer.Enabled Then redrawTimer.Start()
+        '    End If
+        'End If
+
+        'If isDragging Then
+        '    endPoint = ConvertMouseToImageCoords(e.Location)
+        '    RedrawImage()
+        'ElseIf isEditingStartPoint AndAlso selectedArrowIndex >= 0 Then
+        '    Dim arrow = arrows(selectedArrowIndex)
+        '    arrow.StartPoint = ConvertMouseToImageCoords(e.Location)
+        '    arrows(selectedArrowIndex) = arrow
+        '    RedrawImage()
+        'ElseIf isEditingEndPoint AndAlso selectedArrowIndex >= 0 Then
+        '    Dim arrow = arrows(selectedArrowIndex)
+        '    arrow.EndPoint = ConvertMouseToImageCoords(e.Location)
+        '    arrows(selectedArrowIndex) = arrow
+        '    RedrawImage()
+        'End If
+
+        '====== lawas
+        'If isPenMode = True Then
+        '    selectedArrowIndex = GetSelectedArrowIndex(ConvertMouseToImageCoords(e.Location))
+        '    If selectedArrowIndex >= 0 Then
+        '        PictureBox1.Cursor = Cursors.Hand
+        '    Else
+        '        PictureBox1.Cursor = Cursors.Cross
+        '    End If
+        'ElseIf isTextMode = True Then
+        '    selectedTextIndex = GetSelectedTextIndex(ConvertMouseToImageCoords(e.Location))
+        '    If selectedTextIndex >= 0 Then
+        '        PictureBox1.Cursor = Cursors.Hand
+        '    Else
+        '        PictureBox1.Cursor = Cursors.IBeam
+        '    End If
+        'End If
+
+        'If isDragging Then
+        '    endPoint = ConvertMouseToImageCoords(e.Location)
+        '    RedrawImage()
+        'ElseIf isEditingStartPoint AndAlso selectedArrowIndex >= 0 Then
+        '    Dim arrow = arrows(selectedArrowIndex)
+        '    arrow.StartPoint = ConvertMouseToImageCoords(e.Location)
+        '    arrows(selectedArrowIndex) = arrow
+        '    RedrawImage()
+        'ElseIf isEditingEndPoint AndAlso selectedArrowIndex >= 0 Then
+        '    Dim arrow = arrows(selectedArrowIndex)
+        '    arrow.EndPoint = ConvertMouseToImageCoords(e.Location)
+        '    arrows(selectedArrowIndex) = arrow
+        '    RedrawImage()
+        'End If
+
+
+
+
+
+
+
+        'If isDragging Then
+        '    endPoint = ConvertMouseToImageCoords(e.Location)
+        '    RedrawImage()
+        'ElseIf isEditingStartPoint AndAlso selectedArrowIndex >= 0 Then
+        '    Dim arrow = arrows(selectedArrowIndex)
+        '    arrow.StartPoint = ConvertMouseToImageCoords(e.Location)
+        '    arrows(selectedArrowIndex) = arrow
+        '    RedrawImage()
+        'ElseIf isEditingEndPoint AndAlso selectedArrowIndex >= 0 Then
+        '    Dim arrow = arrows(selectedArrowIndex)
+        '    arrow.EndPoint = ConvertMouseToImageCoords(e.Location)
+        '    arrows(selectedArrowIndex) = arrow
+        '    RedrawImage()
+        'End If
+    End Sub
+
+    Private Sub redrawTimer_Tick(sender As Object, e As EventArgs) Handles redrawTimer.Tick
+        If pendingRedraw Then
             RedrawImage()
-        ElseIf isEditingStartPoint AndAlso selectedArrowIndex >= 0 Then
-            Dim arrow = arrows(selectedArrowIndex)
-            arrow.StartPoint = ConvertMouseToImageCoords(e.Location)
-            arrows(selectedArrowIndex) = arrow
-            RedrawImage()
-        ElseIf isEditingEndPoint AndAlso selectedArrowIndex >= 0 Then
-            Dim arrow = arrows(selectedArrowIndex)
-            arrow.EndPoint = ConvertMouseToImageCoords(e.Location)
-            arrows(selectedArrowIndex) = arrow
-            RedrawImage()
+            pendingRedraw = False ' Reset flag setelah pembaruan
+        Else
+            redrawTimer.Stop() ' Hentikan timer jika tidak ada pembaruan
         End If
     End Sub
 
     Private Sub PictureBox1_MouseUp(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseUp
+
+        lastMouseX = -1
+        lastMouseY = -1
+        redrawTimer.Stop()
+
         If isDragging Then
             isDragging = False
             Dim newArrow As New DrawArrow With {
@@ -320,14 +460,42 @@ Public Class Form1
                 .LineWeight = lineWeight,
                 .LineColor = lineColor
             }
+
+            ' Tampilkan kotak dialog if checked untuk memasukkan komentar
+            If My.Settings.AlwaysAddComment Then
+
+                Dim commentForm As New FormComment()
+                Dim comment As String = String.Empty
+                Dim commentTxtSize As Integer = 10
+                Dim commentTxtColor As Color = Color.Black
+                Dim commentBgColor As Color = Color.Gold
+
+                If commentForm.ShowDialog() = DialogResult.OK Then
+                    comment = commentForm.CommentText
+                    commentTxtSize = commentForm.CommentTextSize
+                    commentTxtColor = commentForm.TextColor
+                    commentBgColor = commentForm.BgColor
+                End If
+
+                If Not String.IsNullOrEmpty(comment) Then
+                    newArrow.Comment = comment
+                    newArrow.CommentTextSize = commentTxtSize
+                    newArrow.CommentTextColor = commentTxtColor
+                    newArrow.CommentBgColor = commentBgColor
+                End If
+
+            End If
+
             arrows.Add(newArrow)
             RedrawImage()
         End If
+
         If isEditingStartPoint OrElse isEditingEndPoint Then
             isEditingStartPoint = False
             isEditingEndPoint = False
             RedrawImage()
         End If
+
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
@@ -335,7 +503,7 @@ Public Class Form1
         isTextMode = False
         isEraseMode = False
         If isPenMode Then
-            Button4.BackColor = Color.MediumSeaGreen
+            Button4.BackColor = Color.NavajoWhite
             PictureBox1.Cursor = Cursors.Cross
             Button5.BackColor = Color.Transparent
             Button6.BackColor = Color.Transparent
@@ -351,8 +519,8 @@ Public Class Form1
         isTextMode = False
         isEraseMode = Not isEraseMode
         If isEraseMode Then
-            Button5.BackColor = Color.MediumSeaGreen
-            PictureBox1.Cursor = Cursors.UpArrow
+            Button5.BackColor = Color.NavajoWhite
+            PictureBox1.Cursor = Cursors.Hand
             Button4.BackColor = Color.Transparent
             Button6.BackColor = Color.Transparent
             TextBox1.Visible = False
@@ -367,7 +535,7 @@ Public Class Form1
         isTextMode = Not isTextMode
         isEraseMode = False
         If isTextMode Then
-            Button6.BackColor = Color.MediumSeaGreen
+            Button6.BackColor = Color.NavajoWhite
             PictureBox1.Cursor = Cursors.IBeam
             Button4.BackColor = Color.Transparent
             Button5.BackColor = Color.Transparent
@@ -465,15 +633,83 @@ Public Class Form1
         Dim tempImage As Bitmap = New Bitmap(image)
 
         Using g As Graphics = Graphics.FromImage(tempImage)
-            ' Enable high-quality rendering
+
             g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
 
             ' Draw all arrows
             If arrows IsNot Nothing Then
                 For Each arrow In arrows
+
                     Dim pen As New Pen(arrow.LineColor, arrow.LineWeight)
                     pen.EndCap = Drawing2D.LineCap.ArrowAnchor
                     g.DrawLine(pen, arrow.StartPoint, arrow.EndPoint)
+
+
+                    ' Draw comment near the line
+                    If Not String.IsNullOrEmpty(arrow.Comment) Then
+                        ' Calculate the midpoint of the line
+                        Dim midPoint As New Point(
+                        (arrow.StartPoint.X + arrow.EndPoint.X) \ 2,
+                        (arrow.StartPoint.Y + arrow.EndPoint.Y) \ 2)
+
+                        ' Measure text size
+                        Dim font As New Font("Arial", arrow.CommentTextSize, FontStyle.Regular)
+                        Dim maxWidth As Integer = 150 ' Max width for wrapping text
+                        Dim textSize As SizeF = g.MeasureString(arrow.Comment, font, maxWidth)
+                        Dim textWidth As Integer = CInt(textSize.Width)
+                        Dim textHeight As Integer = CInt(textSize.Height)
+
+                        ' Determine orientation
+                        Dim deltaX As Integer = arrow.EndPoint.X - arrow.StartPoint.X
+                        Dim deltaY As Integer = arrow.EndPoint.Y - arrow.StartPoint.Y
+                        Dim lineLength As Double = Math.Sqrt(deltaX * deltaX + deltaY * deltaY)
+                        Dim diagonalTolerance As Double = 0.7 * lineLength
+                        Dim commentPosition As Point
+
+                        Dim brush As New SolidBrush(arrow.CommentTextColor)
+                        Dim backgroundBrush As New SolidBrush(Color.FromArgb(200, arrow.CommentBgColor))
+
+
+                        If Math.Abs(Math.Abs(deltaX) - Math.Abs(deltaY)) <= diagonalTolerance Then ' IF Diagonal
+
+                            Dim minDistance As Integer = 20 ' Jarak minimum dari kepala panah
+                            Dim angle As Double = Math.Atan2(deltaY, deltaX)
+                            Dim offsetX As Integer = CInt(minDistance * Math.Cos(angle))
+                            Dim offsetY As Integer = CInt(minDistance * Math.Sin(angle))
+
+                            If deltaX > 0 And deltaY < 0 Then
+                                ' Kuadran I (kanan atas)
+                                commentPosition = New Point(arrow.EndPoint.X + offsetX, arrow.EndPoint.Y + offsetY)
+                            ElseIf deltaX < 0 And deltaY < 0 Then
+                                ' Kuadran II (kiri atas)
+                                commentPosition = New Point(arrow.EndPoint.X - offsetX + 25, arrow.EndPoint.Y + offsetY)
+                            ElseIf deltaX < 0 And deltaY > 0 Then
+                                ' Kuadran III (kiri bawah)
+                                commentPosition = New Point(arrow.EndPoint.X - offsetX + 25, arrow.EndPoint.Y - offsetY)
+                            Else
+                                ' Kuadran IV (kanan bawah)
+                                commentPosition = New Point(arrow.EndPoint.X + offsetX, arrow.EndPoint.Y - offsetY)
+                            End If
+                        ElseIf Math.Abs(deltaY) < Math.Abs(deltaX) Then
+                            ' Horizontal
+                            commentPosition = New Point(midPoint.X - (textWidth \ 2), midPoint.Y - textHeight - 10)
+                        ElseIf Math.Abs(deltaX) < Math.Abs(deltaY) Then
+                            ' Vertical
+                            commentPosition = New Point(midPoint.X + 10, midPoint.Y - (textHeight \ 2))
+                        End If
+
+
+                        ' Draw the comment
+                        Dim stringFormat As New StringFormat() With {
+                        .Alignment = StringAlignment.Near,
+                        .LineAlignment = StringAlignment.Near
+                        }
+                        Dim commentRect As New RectangleF(commentPosition.X, commentPosition.Y, textSize.Width, textSize.Height)
+                        g.FillRectangle(backgroundBrush, commentRect)
+                        g.DrawString(arrow.Comment, font, brush, commentRect)
+
+                    End If
+
                 Next
             End If
 
@@ -493,8 +729,6 @@ Public Class Form1
 
         ' Set the PictureBox image to the tempImage
         PictureBox1.Image = tempImage
-
-        ' Optionally, call Invalidate to force the PictureBox to repaint
         PictureBox1.Invalidate()
     End Sub
 
@@ -664,4 +898,8 @@ Public Class Form1
         Return IntPtr.Zero
     End Function
 
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        My.Settings.AlwaysAddComment = CheckBox1.Checked
+        My.Settings.Save()
+    End Sub
 End Class
