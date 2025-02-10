@@ -1,4 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+﻿Imports Newtonsoft.Json.Linq
 
 Public Class FormComment
 
@@ -43,6 +43,16 @@ Public Class FormComment
         End Set
     End Property
 
+    Private _commentTextSizeIndex = 2
+    Public Property CommentTextSizeIndex As Integer
+        Get
+            Return _commentTextSizeIndex
+        End Get
+        Set(value As Integer)
+            _commentTextSizeIndex = value
+        End Set
+    End Property
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Me.DialogResult = DialogResult.OK
         Me.Close()
@@ -66,10 +76,12 @@ Public Class FormComment
 
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
         CommentTextSize = CInt(ComboBox1.SelectedItem)
+        CommentTextSizeIndex = CInt(ComboBox1.SelectedIndex)
     End Sub
 
     Private Sub FormComment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ComboBox1.Items.AddRange(New Object() {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
-        ComboBox1.SelectedIndex = 2
+        ComboBox1.SelectedIndex = CommentTextSizeIndex
     End Sub
+
 End Class

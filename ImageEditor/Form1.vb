@@ -5,7 +5,7 @@ Imports System.IO
 Imports FxResources.System
 Imports Newtonsoft.Json
 Imports System.Runtime.InteropServices
-Imports System.Diagnostics
+
 Public Class Form1
 
     '[config]
@@ -166,24 +166,23 @@ Public Class Form1
         Public Position As Point
         Public Content As String
         Public TextSize As Integer
+        Public TextSizeIndex As Integer
         Public Font As String
         Public Color As Color
+        Public BgColor As Color
     End Structure
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Me.Text = $"Editor Gambar RME {appVersion.Major}.{appVersion.Minor}.{appVersion.Build} (Beta)"
+        Me.Text = $"Site Marking RME - RSUD dr Adhyatma MPH  (v.{appVersion.Major}.{appVersion.Minor}.{appVersion.Build})"
 
         CheckBox1.Checked = My.Settings.AlwaysAddComment
 
         AddHandler redrawTimer.Tick, AddressOf redrawTimer_Tick
 
         ComboBox1.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25})
-        ComboBox2.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30})
         ComboBox1.SelectedIndex = 10
-        ComboBox2.SelectedIndex = 8
         lineWeight = CInt(ComboBox1.SelectedItem)
-        textSize = CInt(ComboBox2.SelectedItem)
         PictureBox2.BackColor = lineColor
 
 
@@ -221,25 +220,15 @@ Public Class Form1
         ElseIf isTextMode Then
 
             If e.Button = MouseButtons.Left Then
-
+                ' Cari indeks teks yang diklik
                 selectedTextIndex = GetSelectedTextIndex(ConvertMouseToImageCoords(e.Location))
 
                 If selectedTextIndex >= 0 Then
-                    Dim text = texts(selectedTextIndex)
-                    textPosition = ConvertMouseToImageCoords(e.Location)
-                    TextBox1.Location = New Point(e.X + 12, e.Y + 5)
-                    TextBox1.Visible = True
-                    text.Content = TextBox1.Text
-                    text.Position = textPosition
-                    texts(selectedTextIndex) = text
-                    TextBox1.Focus()
+                    ' Jika teks ditemukan, buka form edit
+                    EditExistingText(selectedTextIndex)
                 Else
-
-                    textPosition = ConvertMouseToImageCoords(e.Location)
-                    TextBox1.Location = New Point(e.X + 12, e.Y + 5)
-                    TextBox1.Visible = True
-                    TextBox1.Focus()
-
+                    ' Jika tidak ada teks, buat baru
+                    AddNewText(ConvertMouseToImageCoords(e.Location))
                 End If
             End If
 
@@ -293,6 +282,8 @@ Public Class Form1
 
     Private Sub PictureBox1_MouseMove(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseMove
 
+        Dim imagePoint As Point = ConvertMouseToImageCoords(e.Location)
+
         If isPenMode = True Then
             selectedArrowIndex = GetSelectedArrowIndex(ConvertMouseToImageCoords(e.Location))
             If selectedArrowIndex >= 0 Then
@@ -301,12 +292,10 @@ Public Class Form1
                 PictureBox1.Cursor = Cursors.Cross
             End If
         ElseIf isTextMode = True Then
-            selectedTextIndex = GetSelectedTextIndex(ConvertMouseToImageCoords(e.Location))
-            If selectedTextIndex >= 0 Then
-                PictureBox1.Cursor = Cursors.Hand
-            Else
-                PictureBox1.Cursor = Cursors.IBeam
-            End If
+
+            Dim hoverIndex As Integer = GetSelectedTextIndex(imagePoint)
+            PictureBox1.Cursor = If(hoverIndex >= 0, Cursors.Hand, Cursors.IBeam)
+
         End If
 
 
@@ -437,6 +426,51 @@ Public Class Form1
         'End If
     End Sub
 
+    ' Fungsi untuk mengedit teks yang sudah ada
+    Private Sub EditExistingText(index As Integer)
+
+        Dim textToEdit = texts(index)
+
+        Dim commentForm As New FormComment With {
+            .CommentText = textToEdit.Content,
+            .BgColor = textToEdit.BgColor,
+            .TextColor = textToEdit.Color,
+            .CommentTextSize = textToEdit.TextSize,
+            .CommentTextSizeIndex = textToEdit.TextSizeIndex
+        }
+
+        If commentForm.ShowDialog() = DialogResult.OK Then
+            textToEdit.Content = commentForm.CommentText
+            textToEdit.TextSize = commentForm.CommentTextSize
+            textToEdit.TextSizeIndex = commentForm.CommentTextSizeIndex
+            textToEdit.Color = commentForm.TextColor
+            textToEdit.BgColor = commentForm.BgColor
+            texts(index) = textToEdit
+            RedrawImage()
+        End If
+
+    End Sub
+
+    ' Fungsi untuk menambahkan teks baru
+    Private Sub AddNewText(position As Point)
+
+        Dim commentForm As New FormComment()
+
+        If commentForm.ShowDialog() = DialogResult.OK Then
+            Dim newText As New DrawText With {
+                .Position = position,
+                .Content = commentForm.CommentText,
+                .TextSize = commentForm.CommentTextSize,
+                .TextSizeIndex = commentForm.CommentTextSizeIndex,
+                .Color = commentForm.TextColor,
+                .BgColor = commentForm.BgColor
+            }
+            texts.Add(newText)
+            RedrawImage()
+        End If
+
+    End Sub
+
     Private Sub redrawTimer_Tick(sender As Object, e As EventArgs) Handles redrawTimer.Tick
         If pendingRedraw Then
             RedrawImage()
@@ -503,11 +537,10 @@ Public Class Form1
         isTextMode = False
         isEraseMode = False
         If isPenMode Then
-            Button4.BackColor = Color.NavajoWhite
+            Button4.BackColor = ColorTranslator.FromHtml("#97c5f1")
             PictureBox1.Cursor = Cursors.Cross
             Button5.BackColor = Color.Transparent
             Button6.BackColor = Color.Transparent
-            TextBox1.Visible = False
         Else
             Button4.BackColor = Color.Transparent
             PictureBox1.Cursor = Cursors.Arrow
@@ -519,11 +552,10 @@ Public Class Form1
         isTextMode = False
         isEraseMode = Not isEraseMode
         If isEraseMode Then
-            Button5.BackColor = Color.NavajoWhite
+            Button5.BackColor = ColorTranslator.FromHtml("#97c5f1")
             PictureBox1.Cursor = Cursors.Hand
             Button4.BackColor = Color.Transparent
             Button6.BackColor = Color.Transparent
-            TextBox1.Visible = False
         Else
             Button5.BackColor = Color.Transparent
             PictureBox1.Cursor = Cursors.Arrow
@@ -535,12 +567,11 @@ Public Class Form1
         isTextMode = Not isTextMode
         isEraseMode = False
         If isTextMode Then
-            Button6.BackColor = Color.NavajoWhite
+            Button6.BackColor = ColorTranslator.FromHtml("#97c5f1")
             PictureBox1.Cursor = Cursors.IBeam
             Button4.BackColor = Color.Transparent
             Button5.BackColor = Color.Transparent
         Else
-            TextBox1.Visible = False
             Button6.BackColor = Color.Transparent
             PictureBox1.Cursor = Cursors.Arrow
         End If
@@ -550,46 +581,12 @@ Public Class Form1
         lineWeight = CInt(ComboBox1.SelectedItem)
     End Sub
 
-    Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
-        If e.KeyChar = ChrW(Keys.Return) Then
-            If TextBox1.Visible Then
-                If selectedTextIndex >= 0 Then
-                    Dim text = texts(selectedTextIndex)
-                    text.Content = TextBox1.Text
-                    texts(selectedTextIndex) = text
-                Else
-                    Dim newText As New DrawText With {
-                    .Position = textPosition,
-                    .Content = TextBox1.Text,
-                    .TextSize = textSize,
-                    .Font = textFont,
-                    .Color = textColor
-                }
-                    texts.Add(newText)
-                End If
-                TextBox1.Visible = False
-                TextBox1.Clear()
-                RedrawImage()
-            End If
-            e.Handled = True
-        End If
-    End Sub
-
     Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles PictureBox2.Click
         Dim cDialog As New ColorDialog()
         cDialog.Color = lineColor
         If (cDialog.ShowDialog() = DialogResult.OK) Then
             lineColor = cDialog.Color
             PictureBox2.BackColor = cDialog.Color
-        End If
-    End Sub
-
-    Private Sub PictureBox3_Click(sender As Object, e As EventArgs) Handles PictureBox3.Click
-        Dim cDialog As New ColorDialog()
-        cDialog.Color = textColor
-        If (cDialog.ShowDialog() = DialogResult.OK) Then
-            textColor = cDialog.Color
-            PictureBox3.BackColor = cDialog.Color
         End If
     End Sub
 
@@ -625,10 +622,6 @@ Public Class Form1
 
     End Sub
 
-    Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedIndexChanged
-        textSize = CInt(ComboBox2.SelectedItem)
-    End Sub
-
     Private Sub RedrawImage()
         Dim tempImage As Bitmap = New Bitmap(image)
 
@@ -647,6 +640,7 @@ Public Class Form1
 
                     ' Draw comment near the line
                     If Not String.IsNullOrEmpty(arrow.Comment) Then
+
                         ' Calculate the midpoint of the line
                         Dim midPoint As New Point(
                         (arrow.StartPoint.X + arrow.EndPoint.X) \ 2,
@@ -654,8 +648,7 @@ Public Class Form1
 
                         ' Measure text size
                         Dim font As New Font("Arial", arrow.CommentTextSize, FontStyle.Regular)
-                        Dim maxWidth As Integer = 150 ' Max width for wrapping text
-                        Dim textSize As SizeF = g.MeasureString(arrow.Comment, font, maxWidth)
+                        Dim textSize As SizeF = g.MeasureString(arrow.Comment, font)
                         Dim textWidth As Integer = CInt(textSize.Width)
                         Dim textHeight As Integer = CInt(textSize.Height)
 
@@ -663,41 +656,43 @@ Public Class Form1
                         Dim deltaX As Integer = arrow.EndPoint.X - arrow.StartPoint.X
                         Dim deltaY As Integer = arrow.EndPoint.Y - arrow.StartPoint.Y
                         Dim lineLength As Double = Math.Sqrt(deltaX * deltaX + deltaY * deltaY)
-                        Dim diagonalTolerance As Double = 0.7 * lineLength
+                        Dim diagonalTolerance As Double = 2 * lineLength
                         Dim commentPosition As Point
 
                         Dim brush As New SolidBrush(arrow.CommentTextColor)
                         Dim backgroundBrush As New SolidBrush(Color.FromArgb(200, arrow.CommentBgColor))
 
+                        Dim minDistance As Integer = 20 ' Jarak minimum dari kepala panah
+                        Dim angle As Double = Math.Atan2(deltaY, deltaX)
+                        Dim offsetX As Integer = CInt(minDistance * Math.Cos(angle))
+                        Dim offsetY As Integer = CInt(minDistance * Math.Sin(angle))
+                        Dim horizontalPadding As Integer = 10
 
-                        If Math.Abs(Math.Abs(deltaX) - Math.Abs(deltaY)) <= diagonalTolerance Then ' IF Diagonal
-
-                            Dim minDistance As Integer = 20 ' Jarak minimum dari kepala panah
-                            Dim angle As Double = Math.Atan2(deltaY, deltaX)
-                            Dim offsetX As Integer = CInt(minDistance * Math.Cos(angle))
-                            Dim offsetY As Integer = CInt(minDistance * Math.Sin(angle))
-
-                            If deltaX > 0 And deltaY < 0 Then
-                                ' Kuadran I (kanan atas)
-                                commentPosition = New Point(arrow.EndPoint.X + offsetX, arrow.EndPoint.Y + offsetY)
-                            ElseIf deltaX < 0 And deltaY < 0 Then
-                                ' Kuadran II (kiri atas)
-                                commentPosition = New Point(arrow.EndPoint.X - offsetX + 25, arrow.EndPoint.Y + offsetY)
-                            ElseIf deltaX < 0 And deltaY > 0 Then
-                                ' Kuadran III (kiri bawah)
-                                commentPosition = New Point(arrow.EndPoint.X - offsetX + 25, arrow.EndPoint.Y - offsetY)
-                            Else
-                                ' Kuadran IV (kanan bawah)
-                                commentPosition = New Point(arrow.EndPoint.X + offsetX, arrow.EndPoint.Y - offsetY)
-                            End If
-                        ElseIf Math.Abs(deltaY) < Math.Abs(deltaX) Then
-                            ' Horizontal
-                            commentPosition = New Point(midPoint.X - (textWidth \ 2), midPoint.Y - textHeight - 10)
-                        ElseIf Math.Abs(deltaX) < Math.Abs(deltaY) Then
-                            ' Vertical
-                            commentPosition = New Point(midPoint.X + 10, midPoint.Y - (textHeight \ 2))
+                        If deltaX > 0 And deltaY < 0 Then
+                            ' Kuadran I (kanan atas)
+                            commentPosition = New Point(
+                                    arrow.EndPoint.X + horizontalPadding,
+                                    arrow.EndPoint.Y + offsetY
+                                    )
+                        ElseIf deltaX < 0 And deltaY < 0 Then
+                            ' Kuadran II (kiri atas)
+                            commentPosition = New Point(
+                                    arrow.EndPoint.X - (textWidth + horizontalPadding),
+                                    arrow.EndPoint.Y + offsetY
+                                    )
+                        ElseIf deltaX < 0 And deltaY > 0 Then
+                            ' Kuadran III (kiri bawah)
+                            commentPosition = New Point(
+                                    arrow.EndPoint.X - (textWidth + horizontalPadding),
+                                    arrow.EndPoint.Y - offsetY
+                                    )
+                        Else
+                            ' Kuadran IV (kanan bawah)
+                            commentPosition = New Point(
+                                    arrow.EndPoint.X + horizontalPadding,
+                                    arrow.EndPoint.Y - offsetY
+                                    )
                         End If
-
 
                         ' Draw the comment
                         Dim stringFormat As New StringFormat() With {
@@ -722,8 +717,16 @@ Public Class Form1
 
             ' Draw all texts
             For Each DrawText In texts
-                Dim brush As New SolidBrush(DrawText.Color)
-                g.DrawString(DrawText.Content, New Drawing.Font(DrawText.Font, DrawText.TextSize, FontStyle.Regular), brush, DrawText.Position)
+
+                Dim font As New Font("Arial", DrawText.TextSize, FontStyle.Regular)
+                Dim textSize As SizeF = g.MeasureString(DrawText.Content, font)
+                Dim commentRect As New RectangleF(DrawText.Position.X - 5, DrawText.Position.Y - 7, textSize.Width, textSize.Height)
+                Dim textBrush As New SolidBrush(DrawText.Color)
+                Dim backgroundBrush As New SolidBrush(Color.FromArgb(200, DrawText.BgColor))
+
+                g.FillRectangle(backgroundBrush, commentRect)
+                g.DrawString(DrawText.Content, font, textBrush, commentRect)
+
             Next
         End Using
 
@@ -732,7 +735,7 @@ Public Class Form1
         PictureBox1.Invalidate()
     End Sub
 
-    Private Function IsNearPoint(point1 As Point, point2 As Point, Optional threshold As Integer = 10) As Boolean
+    Private Function IsNearPoint(point1 As Point, point2 As Point, Optional threshold As Integer = 35) As Boolean
         Dim dx As Integer = point1.X - point2.X
         Dim dy As Integer = point1.Y - point2.Y
         Return (dx * dx + dy * dy) <= (threshold * threshold)
@@ -748,7 +751,7 @@ Public Class Form1
 
     Private Function GetSelectedArrowIndex(clickPoint As Point) As Integer
 
-        Const clickThreshold As Integer = 2 ' Sesuaikan threshold ini sesuai kebutuhan Anda
+        Const clickThreshold As Integer = 0 ' Sesuaikan threshold ini sesuai kebutuhan Anda
 
         For i As Integer = 0 To arrows.Count - 1
             If IsNearPoint(clickPoint, arrows(i).StartPoint) OrElse IsNearPoint(clickPoint, arrows(i).EndPoint) Then
@@ -762,14 +765,31 @@ Public Class Form1
     End Function
 
     Private Function GetSelectedTextIndex(clickPoint As Point) As Integer
-        For i As Integer = 0 To texts.Count - 1
-            Dim textRect As New Rectangle(texts(i).Position, TextRenderer.MeasureText(texts(i).Content, New Drawing.Font(textFont,
-                               16,
-                               FontStyle.Bold Or FontStyle.Italic)))
-            If textRect.Contains(clickPoint) Then
-                Return i
-            End If
-        Next
+        If texts.Count = 0 Then Return -1
+
+        Using g As Graphics = Graphics.FromImage(image)
+            For i As Integer = 0 To texts.Count - 1
+                Dim text As DrawText = texts(i)
+                Using font As New Font(text.Font, text.TextSize)
+                    Dim size As SizeF = g.MeasureString(text.Content, font)
+                    Dim rect As New Rectangle(
+                    text.Position.X,
+                    text.Position.Y,
+                    CInt(size.Width),
+                    CInt(size.Height)
+                )
+
+                    ' Beri toleransi 5 pixel di semua sisi
+                    rect.Inflate(5, 5)
+
+                    ' Deteksi dengan akurasi tinggi
+                    If rect.Contains(clickPoint) Then
+                        Return i
+                    End If
+                End Using
+            Next
+        End Using
+
         Return -1
     End Function
 
@@ -780,14 +800,86 @@ Public Class Form1
         Using g As Graphics = Graphics.FromImage(tempImage)
 
             For Each arrow In arrows
+
                 Dim pen As New Pen(arrow.LineColor, arrow.LineWeight)
                 pen.EndCap = Drawing2D.LineCap.ArrowAnchor
                 g.DrawLine(pen, arrow.StartPoint, arrow.EndPoint)
+
+
+                ' Draw comment near the line
+                If Not String.IsNullOrEmpty(arrow.Comment) Then
+                    ' Calculate the midpoint of the line
+                    Dim midPoint As New Point(
+                        (arrow.StartPoint.X + arrow.EndPoint.X) \ 2,
+                        (arrow.StartPoint.Y + arrow.EndPoint.Y) \ 2)
+
+                    ' Measure text size
+                    Dim font As New Font("Arial", arrow.CommentTextSize, FontStyle.Regular)
+                    Dim maxWidth As Integer = 150 ' Max width for wrapping text
+                    Dim textSize As SizeF = g.MeasureString(arrow.Comment, font, maxWidth)
+                    Dim textWidth As Integer = CInt(textSize.Width)
+                    Dim textHeight As Integer = CInt(textSize.Height)
+
+                    ' Determine orientation
+                    Dim deltaX As Integer = arrow.EndPoint.X - arrow.StartPoint.X
+                    Dim deltaY As Integer = arrow.EndPoint.Y - arrow.StartPoint.Y
+                    Dim lineLength As Double = Math.Sqrt(deltaX * deltaX + deltaY * deltaY)
+                    Dim diagonalTolerance As Double = 0.7 * lineLength
+                    Dim commentPosition As Point
+
+                    Dim brush As New SolidBrush(arrow.CommentTextColor)
+                    Dim backgroundBrush As New SolidBrush(Color.FromArgb(200, arrow.CommentBgColor))
+
+
+                    If Math.Abs(Math.Abs(deltaX) - Math.Abs(deltaY)) <= diagonalTolerance Then ' IF Diagonal
+
+                        Dim minDistance As Integer = 20 ' Jarak minimum dari kepala panah
+                        Dim angle As Double = Math.Atan2(deltaY, deltaX)
+                        Dim offsetX As Integer = CInt(minDistance * Math.Cos(angle))
+                        Dim offsetY As Integer = CInt(minDistance * Math.Sin(angle))
+
+                        If deltaX > 0 And deltaY < 0 Then
+                            ' Kuadran I (kanan atas)
+                            commentPosition = New Point(arrow.EndPoint.X + offsetX, arrow.EndPoint.Y + offsetY)
+                        ElseIf deltaX < 0 And deltaY < 0 Then
+                            ' Kuadran II (kiri atas)
+                            commentPosition = New Point(arrow.EndPoint.X - offsetX + 25, arrow.EndPoint.Y + offsetY)
+                        ElseIf deltaX < 0 And deltaY > 0 Then
+                            ' Kuadran III (kiri bawah)
+                            commentPosition = New Point(arrow.EndPoint.X - offsetX + 25, arrow.EndPoint.Y - offsetY)
+                        Else
+                            ' Kuadran IV (kanan bawah)
+                            commentPosition = New Point(arrow.EndPoint.X + offsetX, arrow.EndPoint.Y - offsetY)
+                        End If
+                    ElseIf Math.Abs(deltaY) < Math.Abs(deltaX) Then
+                        ' Horizontal
+                        commentPosition = New Point(midPoint.X - (textWidth \ 2), midPoint.Y - textHeight - 10)
+                    ElseIf Math.Abs(deltaX) < Math.Abs(deltaY) Then
+                        ' Vertical
+                        commentPosition = New Point(midPoint.X + 10, midPoint.Y - (textHeight \ 2))
+                    End If
+
+
+                    ' Draw the comment
+                    Dim commentRect As New RectangleF(commentPosition.X, commentPosition.Y, textSize.Width, textSize.Height)
+                    g.FillRectangle(backgroundBrush, commentRect)
+                    g.DrawString(arrow.Comment, font, brush, commentRect)
+
+                End If
+
             Next
 
             For Each DrawText In texts
-                Dim brush As New SolidBrush(DrawText.Color)
-                g.DrawString(DrawText.Content, New Font(DrawText.Font, DrawText.TextSize, FontStyle.Regular), brush, DrawText.Position)
+
+                Dim font As New Font("Arial", DrawText.TextSize, FontStyle.Regular)
+                Dim textSize As SizeF = g.MeasureString(DrawText.Content, font)
+                Dim commentRect As New RectangleF(DrawText.Position.X - 5, DrawText.Position.Y - 7, textSize.Width, textSize.Height)
+                Dim textBrush As New SolidBrush(DrawText.Color)
+                Dim backgroundBrush As New SolidBrush(Color.FromArgb(200, DrawText.BgColor))
+
+                g.FillRectangle(backgroundBrush, commentRect)
+                g.DrawString(DrawText.Content, font, textBrush, commentRect)
+
             Next
 
         End Using
@@ -797,30 +889,36 @@ Public Class Form1
     End Sub
 
     Private Function ConvertMouseToImageCoords(mousePoint As Point) As Point
-        Dim imageSize As Size = image.Size
-        Dim pictureBoxSize As Size = PictureBox1.ClientSize
-
-        Dim imageAspect As Double = imageSize.Width / imageSize.Height
-        Dim pictureBoxAspect As Double = pictureBoxSize.Width / pictureBoxSize.Height
-
-        Dim scaleFactor As Double
-        If imageAspect > pictureBoxAspect Then
-            scaleFactor = pictureBoxSize.Width / imageSize.Width
-        Else
-            scaleFactor = pictureBoxSize.Height / imageSize.Height
+        If image Is Nothing OrElse PictureBox1.ClientSize.Width = 0 OrElse PictureBox1.ClientSize.Height = 0 Then
+            Return Point.Empty
         End If
 
-        Dim scaledWidth As Integer = CInt(imageSize.Width * scaleFactor)
-        Dim scaledHeight As Integer = CInt(imageSize.Height * scaleFactor)
+        ' Hitung rasio aspek
+        Dim imageRatio As Double = image.Width / CDbl(image.Height)
+        Dim pbRatio As Double = PictureBox1.ClientSize.Width / CDbl(PictureBox1.ClientSize.Height)
 
-        Dim offsetX As Integer = (pictureBoxSize.Width - scaledWidth) / 2
-        Dim offsetY As Integer = (pictureBoxSize.Height - scaledHeight) / 2
+        ' Hitung skala
+        Dim scale As Double = If(imageRatio > pbRatio,
+        PictureBox1.ClientSize.Width / CDbl(image.Width),
+        PictureBox1.ClientSize.Height / CDbl(image.Height))
 
-        Dim imagePointX As Integer = CInt((mousePoint.X - offsetX) / scaleFactor)
-        Dim imagePointY As Integer = CInt((mousePoint.Y - offsetY) / scaleFactor)
+        ' Hitung area gambar yang terlihat
+        Dim scaledWidth As Integer = CInt(image.Width * scale)
+        Dim scaledHeight As Integer = CInt(image.Height * scale)
+        Dim offsetX As Integer = (PictureBox1.ClientSize.Width - scaledWidth) \ 2
+        Dim offsetY As Integer = (PictureBox1.ClientSize.Height - scaledHeight) \ 2
 
-        Return New Point(imagePointX, imagePointY)
+        ' Hitung koordinat relatif terhadap gambar
+        Dim imgX As Integer = CInt((mousePoint.X - offsetX) / scale)
+        Dim imgY As Integer = CInt((mousePoint.Y - offsetY) / scale)
+
+        ' Clamping ke batas gambar
+        imgX = Math.Max(0, Math.Min(image.Width - 1, imgX))
+        imgY = Math.Max(0, Math.Min(image.Height - 1, imgY))
+
+        Return New Point(imgX, imgY)
     End Function
+
 
     Function GetAppVersion() As String
         Dim assembly As Assembly = Assembly.GetExecutingAssembly()
@@ -902,4 +1000,5 @@ Public Class Form1
         My.Settings.AlwaysAddComment = CheckBox1.Checked
         My.Settings.Save()
     End Sub
+
 End Class
