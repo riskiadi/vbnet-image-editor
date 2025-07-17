@@ -139,7 +139,7 @@ Partial Class Form1
         Button1.Font = New Font("Quicksand", 9.75F)
         Button1.ForeColor = Color.Black
         Button1.Image = CType(resources.GetObject("Button1.Image"), Image)
-        Button1.Location = New Point(188, 164)
+        Button1.Location = New Point(282, 164)
         Button1.Name = "Button1"
         Button1.Size = New Size(81, 60)
         Button1.TabIndex = 19
@@ -147,10 +147,12 @@ Partial Class Form1
         Button1.TextAlign = ContentAlignment.BottomCenter
         Button1.TextImageRelation = TextImageRelation.ImageAboveText
         Button1.UseVisualStyleBackColor = True
+        Button1.Visible = False
         ' 
         ' CheckBox1
         ' 
         CheckBox1.AutoSize = True
+        CheckBox1.Enabled = False
         CheckBox1.Font = New Font("Quicksand", 9.75F)
         CheckBox1.Location = New Point(14, 102)
         CheckBox1.Name = "CheckBox1"
@@ -169,7 +171,7 @@ Partial Class Form1
         Button6.Name = "Button6"
         Button6.Size = New Size(81, 60)
         Button6.TabIndex = 8
-        Button6.Text = "Comment"
+        Button6.Text = "Note"
         Button6.TextAlign = ContentAlignment.BottomCenter
         Button6.TextImageRelation = TextImageRelation.ImageAboveText
         Button6.UseVisualStyleBackColor = True
@@ -179,7 +181,7 @@ Partial Class Form1
         Button5.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Button5.Font = New Font("Quicksand", 9.75F)
         Button5.Image = CType(resources.GetObject("Button5.Image"), Image)
-        Button5.Location = New Point(275, 164)
+        Button5.Location = New Point(188, 164)
         Button5.Margin = New Padding(3, 3, 10, 3)
         Button5.Name = "Button5"
         Button5.Size = New Size(81, 60)

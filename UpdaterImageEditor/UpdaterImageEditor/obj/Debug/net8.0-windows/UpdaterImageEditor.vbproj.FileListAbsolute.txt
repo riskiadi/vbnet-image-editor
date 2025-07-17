@@ -63,3 +63,4 @@ C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImag
 C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\obj\Debug\net8.0-windows\UpdaterImageEditor.pdb
 C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\obj\Debug\net8.0-windows\UpdaterImageEditor.genruntimeconfig.cache
 C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\obj\Debug\net8.0-windows\ref\UpdaterImageEditor.dll
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Debug\net8.0-windows\Newtonsoft.Json.dll

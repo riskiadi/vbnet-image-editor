@@ -2,17 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
-    <Setting Name="SftpHost" Type="System.String" Scope="User">
-      <Value Profile="(Default)">10.10.7.12</Value>
-    </Setting>
-    <Setting Name="SftpUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)">pd3</Value>
-    </Setting>
-    <Setting Name="SftpPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)">p4$$w0rd</Value>
-    </Setting>
-    <Setting Name="ServerUpdatePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">updtsim/Update Image Editor RME/</Value>
+    <Setting Name="BaseUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://api.rsadhyatma.jatengprov.go.id:5000/</Value>
     </Setting>
   </Settings>
 </SettingsFile>

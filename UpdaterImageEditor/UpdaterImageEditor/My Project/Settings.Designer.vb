@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.10.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.8.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -56,49 +56,13 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("10.10.7.12")>  _
-        Public Property SftpHost() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("https://api.rsadhyatma.jatengprov.go.id:5000/")>  _
+        Public Property BaseUrl() As String
             Get
-                Return CType(Me("SftpHost"),String)
+                Return CType(Me("BaseUrl"),String)
             End Get
             Set
-                Me("SftpHost") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("pd3")>  _
-        Public Property SftpUsername() As String
-            Get
-                Return CType(Me("SftpUsername"),String)
-            End Get
-            Set
-                Me("SftpUsername") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("p4$$w0rd")>  _
-        Public Property SftpPassword() As String
-            Get
-                Return CType(Me("SftpPassword"),String)
-            End Get
-            Set
-                Me("SftpPassword") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("updtsim/Update Image Editor RME/")>  _
-        Public Property ServerUpdatePath() As String
-            Get
-                Return CType(Me("ServerUpdatePath"),String)
-            End Get
-            Set
-                Me("ServerUpdatePath") = value
+                Me("BaseUrl") = value
             End Set
         End Property
     End Class

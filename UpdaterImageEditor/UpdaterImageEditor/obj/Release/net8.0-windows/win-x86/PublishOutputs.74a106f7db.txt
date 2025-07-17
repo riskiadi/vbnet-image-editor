@@ -1,0 +1,8 @@
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\win-x86\UpdaterImageEditor.exe
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\win-x86\UpdaterImageEditor.dll
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\win-x86\UpdaterImageEditor.deps.json
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\win-x86\UpdaterImageEditor.runtimeconfig.json
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\win-x86\UpdaterImageEditor.dll.config
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\win-x86\UpdaterImageEditor.pdb
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\win-x86\Newtonsoft.Json.dll
+C:\Users\ZYREX\Desktop\imgedtr\vbnet-image-editor\UpdaterImageEditor\UpdaterImageEditor\bin\Release\net8.0-windows\publish\win-x86\Renci.SshNet.dll

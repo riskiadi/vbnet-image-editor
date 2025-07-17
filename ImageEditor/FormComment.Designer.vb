@@ -82,7 +82,7 @@ Partial Class FormComment
         ' 
         ' PictureBox2
         ' 
-        PictureBox2.BackColor = Color.White
+        PictureBox2.BackColor = Color.Tomato
         PictureBox2.Location = New Point(182, 148)
         PictureBox2.Name = "PictureBox2"
         PictureBox2.Size = New Size(15, 15)
@@ -134,7 +134,7 @@ Partial Class FormComment
         MaximizeBox = False
         Name = "FormComment"
         StartPosition = FormStartPosition.CenterScreen
-        Text = "Add a comment"
+        Text = "Tambahkan Keterangan"
         TopMost = True
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()

@@ -2,7 +2,6 @@
 Imports IniParser.Model
 Imports System.Reflection
 Imports System.IO
-Imports FxResources.System
 Imports Newtonsoft.Json
 Imports System.Runtime.InteropServices
 
@@ -501,8 +500,8 @@ Public Class Form1
                 Dim commentForm As New FormComment()
                 Dim comment As String = String.Empty
                 Dim commentTxtSize As Integer = 10
-                Dim commentTxtColor As Color = Color.Black
-                Dim commentBgColor As Color = Color.Gold
+                Dim commentTxtColor As Color = Color.Green
+                Dim commentBgColor As Color = Color.Red
 
                 If commentForm.ShowDialog() = DialogResult.OK Then
                     comment = commentForm.CommentText
@@ -639,70 +638,136 @@ Public Class Form1
 
 
                     ' Draw comment near the line
+                    'If Not String.IsNullOrEmpty(arrow.Comment) Then
+
+                    '    ' Calculate the midpoint of the line
+                    '    Dim midPoint As New Point(
+                    '    (arrow.StartPoint.X + arrow.EndPoint.X) \ 2,
+                    '    (arrow.StartPoint.Y + arrow.EndPoint.Y) \ 2)
+
+                    '    ' Measure text size
+                    '    Dim font As New Font("Arial", arrow.CommentTextSize, FontStyle.Regular)
+                    '    Dim textSize As SizeF = g.MeasureString(arrow.Comment, font)
+                    '    Dim textWidth As Integer = CInt(textSize.Width)
+                    '    Dim textHeight As Integer = CInt(textSize.Height)
+
+                    '    ' Determine orientation
+                    '    Dim deltaX As Integer = arrow.EndPoint.X - arrow.StartPoint.X
+                    '    Dim deltaY As Integer = arrow.EndPoint.Y - arrow.StartPoint.Y
+                    '    Dim lineLength As Double = Math.Sqrt(deltaX * deltaX + deltaY * deltaY)
+                    '    Dim diagonalTolerance As Double = 2 * lineLength
+                    '    Dim commentPosition As Point
+
+                    '    Dim brush As New SolidBrush(arrow.CommentTextColor)
+                    '    Dim backgroundBrush As New SolidBrush(Color.FromArgb(200, arrow.CommentBgColor))
+
+                    '    Dim minDistance As Integer = 20 ' Jarak minimum dari kepala panah
+                    '    Dim angle As Double = Math.Atan2(deltaY, deltaX)
+                    '    Dim offsetX As Integer = CInt(minDistance * Math.Cos(angle))
+                    '    Dim offsetY As Integer = CInt(minDistance * Math.Sin(angle))
+                    '    Dim horizontalPadding As Integer = 10
+
+                    '    If deltaX > 0 And deltaY < 0 Then
+                    '        ' Kuadran I (kanan atas)
+                    '        commentPosition = New Point(
+                    '                arrow.EndPoint.X + horizontalPadding,
+                    '                arrow.EndPoint.Y + offsetY
+                    '                )
+                    '    ElseIf deltaX < 0 And deltaY < 0 Then
+                    '        ' Kuadran II (kiri atas)
+                    '        commentPosition = New Point(
+                    '                arrow.EndPoint.X - (textWidth + horizontalPadding),
+                    '                arrow.EndPoint.Y + offsetY
+                    '                )
+                    '    ElseIf deltaX < 0 And deltaY > 0 Then
+                    '        ' Kuadran III (kiri bawah)
+                    '        commentPosition = New Point(
+                    '                arrow.EndPoint.X - (textWidth + horizontalPadding),
+                    '                arrow.EndPoint.Y - offsetY
+                    '                )
+                    '    Else
+                    '        ' Kuadran IV (kanan bawah)
+                    '        commentPosition = New Point(
+                    '                arrow.EndPoint.X + horizontalPadding,
+                    '                arrow.EndPoint.Y - offsetY
+                    '                )
+                    '    End If
+
+                    '    ' Draw the comment
+                    '    Dim stringFormat As New StringFormat() With {
+                    '    .Alignment = StringAlignment.Near,
+                    '    .LineAlignment = StringAlignment.Near
+                    '    }
+                    '    Dim commentRect As New RectangleF(commentPosition.X, commentPosition.Y, textSize.Width, textSize.Height)
+                    '    g.FillRectangle(backgroundBrush, commentRect)
+                    '    g.DrawString(arrow.Comment, font, brush, commentRect)
+
+                    'End If
+
                     If Not String.IsNullOrEmpty(arrow.Comment) Then
 
-                        ' Calculate the midpoint of the line
-                        Dim midPoint As New Point(
-                        (arrow.StartPoint.X + arrow.EndPoint.X) \ 2,
-                        (arrow.StartPoint.Y + arrow.EndPoint.Y) \ 2)
+                        Using font As New Font("Arial", arrow.CommentTextSize, FontStyle.Regular),
+                          brush As New SolidBrush(arrow.CommentTextColor),
+                          backgroundBrush As New SolidBrush(Color.FromArgb(200, arrow.CommentBgColor))
 
-                        ' Measure text size
-                        Dim font As New Font("Arial", arrow.CommentTextSize, FontStyle.Regular)
-                        Dim textSize As SizeF = g.MeasureString(arrow.Comment, font)
-                        Dim textWidth As Integer = CInt(textSize.Width)
-                        Dim textHeight As Integer = CInt(textSize.Height)
+                            Dim gMaxWidth As Integer = 200
+                            Dim stringFormat As New StringFormat() With {
+                            .Alignment = StringAlignment.Near,
+                            .LineAlignment = StringAlignment.Near
+                            }
 
-                        ' Determine orientation
-                        Dim deltaX As Integer = arrow.EndPoint.X - arrow.StartPoint.X
-                        Dim deltaY As Integer = arrow.EndPoint.Y - arrow.StartPoint.Y
-                        Dim lineLength As Double = Math.Sqrt(deltaX * deltaX + deltaY * deltaY)
-                        Dim diagonalTolerance As Double = 2 * lineLength
-                        Dim commentPosition As Point
+                            ' Ukur ukuran tanpa wrapping dulu
+                            Dim rawSize As SizeF = g.MeasureString(arrow.Comment, font)
+                            Dim commentWidth As Single
+                            Dim commentHeight As Single
 
-                        Dim brush As New SolidBrush(arrow.CommentTextColor)
-                        Dim backgroundBrush As New SolidBrush(Color.FromArgb(200, arrow.CommentBgColor))
+                            If rawSize.Width <= gMaxWidth Then
+                                ' Tidak perlu wrap
+                                commentWidth = rawSize.Width
+                                commentHeight = rawSize.Height
+                            Else
+                                ' Perlu wrap, ukur tinggi dengan lebar maksimum
+                                Dim wrappedSize As SizeF = g.MeasureString(arrow.Comment, font, gMaxWidth, stringFormat)
+                                commentWidth = gMaxWidth
+                                commentHeight = wrappedSize.Height
+                            End If
 
-                        Dim minDistance As Integer = 20 ' Jarak minimum dari kepala panah
-                        Dim angle As Double = Math.Atan2(deltaY, deltaX)
-                        Dim offsetX As Integer = CInt(minDistance * Math.Cos(angle))
-                        Dim offsetY As Integer = CInt(minDistance * Math.Sin(angle))
-                        Dim horizontalPadding As Integer = 10
+                            ' Hitung posisi komentar berdasarkan arah panah
+                            Dim deltaX As Integer = (arrow.EndPoint.X - arrow.StartPoint.X)
+                            Dim deltaY As Integer = (arrow.EndPoint.Y - arrow.StartPoint.Y)
+                            Dim angle As Double = Math.Atan2(deltaY, deltaX)
+                            Dim offsetY As Integer = CInt(20 * Math.Sin(angle))
+                            Dim horizontalPadding As Integer = 30
 
-                        If deltaX > 0 And deltaY < 0 Then
-                            ' Kuadran I (kanan atas)
-                            commentPosition = New Point(
-                                    arrow.EndPoint.X + horizontalPadding,
-                                    arrow.EndPoint.Y + offsetY
-                                    )
-                        ElseIf deltaX < 0 And deltaY < 0 Then
-                            ' Kuadran II (kiri atas)
-                            commentPosition = New Point(
-                                    arrow.EndPoint.X - (textWidth + horizontalPadding),
-                                    arrow.EndPoint.Y + offsetY
-                                    )
-                        ElseIf deltaX < 0 And deltaY > 0 Then
-                            ' Kuadran III (kiri bawah)
-                            commentPosition = New Point(
-                                    arrow.EndPoint.X - (textWidth + horizontalPadding),
-                                    arrow.EndPoint.Y - offsetY
-                                    )
-                        Else
-                            ' Kuadran IV (kanan bawah)
-                            commentPosition = New Point(
-                                    arrow.EndPoint.X + horizontalPadding,
-                                    arrow.EndPoint.Y - offsetY
-                                    )
-                        End If
+                            Dim commentPosition As Point
+                            If deltaX > 0 And deltaY < 0 Then
+                                commentPosition = New Point(arrow.EndPoint.X + horizontalPadding, arrow.EndPoint.Y + offsetY) ' jam 12 - 3
+                            ElseIf deltaX < 0 And deltaY < 0 Then
+                                commentPosition = New Point(arrow.EndPoint.X - (CInt(commentWidth) + horizontalPadding), arrow.EndPoint.Y + offsetY)
+                            ElseIf deltaX < 0 And deltaY > 0 Then
+                                commentPosition = New Point(arrow.EndPoint.X - (CInt(commentWidth) + horizontalPadding), arrow.EndPoint.Y - offsetY)
+                            Else
+                                commentPosition = New Point(arrow.EndPoint.X + horizontalPadding, arrow.EndPoint.Y - offsetY) ' jam 3 - 6
+                            End If
 
-                        ' Draw the comment
-                        Dim stringFormat As New StringFormat() With {
-                        .Alignment = StringAlignment.Near,
-                        .LineAlignment = StringAlignment.Near
-                        }
-                        Dim commentRect As New RectangleF(commentPosition.X, commentPosition.Y, textSize.Width, textSize.Height)
-                        g.FillRectangle(backgroundBrush, commentRect)
-                        g.DrawString(arrow.Comment, font, brush, commentRect)
+                            ' Gambar latar belakang dan teks
+                            Dim commentRect As New RectangleF(commentPosition.X, commentPosition.Y, commentWidth, commentHeight)
 
+                            If commentRect.Right > tempImage.Width Then
+                                commentRect.X = tempImage.Width - commentRect.Width
+                            End If
+
+                            If commentRect.Bottom > tempImage.Height Then
+                                commentRect.Y = tempImage.Height - commentRect.Height
+                            End If
+                            If commentRect.X < 0 Then commentRect.X = 0
+                            If commentRect.Y < 0 Then commentRect.Y = 0
+
+                            g.FillRectangle(backgroundBrush, commentRect)
+                            g.DrawString(arrow.Comment, font, brush, commentRect, stringFormat)
+
+
+                        End Using
                     End If
 
                 Next
@@ -717,17 +782,15 @@ Public Class Form1
 
             ' Draw all texts
             For Each DrawText In texts
-
                 Dim font As New Font("Arial", DrawText.TextSize, FontStyle.Regular)
                 Dim textSize As SizeF = g.MeasureString(DrawText.Content, font)
                 Dim commentRect As New RectangleF(DrawText.Position.X - 5, DrawText.Position.Y - 7, textSize.Width, textSize.Height)
                 Dim textBrush As New SolidBrush(DrawText.Color)
                 Dim backgroundBrush As New SolidBrush(Color.FromArgb(200, DrawText.BgColor))
-
                 g.FillRectangle(backgroundBrush, commentRect)
                 g.DrawString(DrawText.Content, font, textBrush, commentRect)
-
             Next
+
         End Using
 
         ' Set the PictureBox image to the tempImage
@@ -808,63 +871,69 @@ Public Class Form1
 
                 ' Draw comment near the line
                 If Not String.IsNullOrEmpty(arrow.Comment) Then
-                    ' Calculate the midpoint of the line
-                    Dim midPoint As New Point(
-                        (arrow.StartPoint.X + arrow.EndPoint.X) \ 2,
-                        (arrow.StartPoint.Y + arrow.EndPoint.Y) \ 2)
 
-                    ' Measure text size
-                    Dim font As New Font("Arial", arrow.CommentTextSize, FontStyle.Regular)
-                    Dim maxWidth As Integer = 150 ' Max width for wrapping text
-                    Dim textSize As SizeF = g.MeasureString(arrow.Comment, font, maxWidth)
-                    Dim textWidth As Integer = CInt(textSize.Width)
-                    Dim textHeight As Integer = CInt(textSize.Height)
+                    Using font As New Font("Arial", arrow.CommentTextSize, FontStyle.Regular),
+                          brush As New SolidBrush(arrow.CommentTextColor),
+                          backgroundBrush As New SolidBrush(Color.FromArgb(200, arrow.CommentBgColor))
 
-                    ' Determine orientation
-                    Dim deltaX As Integer = arrow.EndPoint.X - arrow.StartPoint.X
-                    Dim deltaY As Integer = arrow.EndPoint.Y - arrow.StartPoint.Y
-                    Dim lineLength As Double = Math.Sqrt(deltaX * deltaX + deltaY * deltaY)
-                    Dim diagonalTolerance As Double = 0.7 * lineLength
-                    Dim commentPosition As Point
+                        Dim gMaxWidth As Integer = 200
+                        Dim stringFormat As New StringFormat() With {
+                            .Alignment = StringAlignment.Near,
+                            .LineAlignment = StringAlignment.Near
+                            }
 
-                    Dim brush As New SolidBrush(arrow.CommentTextColor)
-                    Dim backgroundBrush As New SolidBrush(Color.FromArgb(200, arrow.CommentBgColor))
+                        ' Ukur ukuran tanpa wrapping dulu
+                        Dim rawSize As SizeF = g.MeasureString(arrow.Comment, font)
+                        Dim commentWidth As Single
+                        Dim commentHeight As Single
 
-
-                    If Math.Abs(Math.Abs(deltaX) - Math.Abs(deltaY)) <= diagonalTolerance Then ' IF Diagonal
-
-                        Dim minDistance As Integer = 20 ' Jarak minimum dari kepala panah
-                        Dim angle As Double = Math.Atan2(deltaY, deltaX)
-                        Dim offsetX As Integer = CInt(minDistance * Math.Cos(angle))
-                        Dim offsetY As Integer = CInt(minDistance * Math.Sin(angle))
-
-                        If deltaX > 0 And deltaY < 0 Then
-                            ' Kuadran I (kanan atas)
-                            commentPosition = New Point(arrow.EndPoint.X + offsetX, arrow.EndPoint.Y + offsetY)
-                        ElseIf deltaX < 0 And deltaY < 0 Then
-                            ' Kuadran II (kiri atas)
-                            commentPosition = New Point(arrow.EndPoint.X - offsetX + 25, arrow.EndPoint.Y + offsetY)
-                        ElseIf deltaX < 0 And deltaY > 0 Then
-                            ' Kuadran III (kiri bawah)
-                            commentPosition = New Point(arrow.EndPoint.X - offsetX + 25, arrow.EndPoint.Y - offsetY)
+                        If rawSize.Width <= gMaxWidth Then
+                            ' Tidak perlu wrap
+                            commentWidth = rawSize.Width
+                            commentHeight = rawSize.Height
                         Else
-                            ' Kuadran IV (kanan bawah)
-                            commentPosition = New Point(arrow.EndPoint.X + offsetX, arrow.EndPoint.Y - offsetY)
+                            ' Perlu wrap, ukur tinggi dengan lebar maksimum
+                            Dim wrappedSize As SizeF = g.MeasureString(arrow.Comment, font, gMaxWidth, stringFormat)
+                            commentWidth = gMaxWidth
+                            commentHeight = wrappedSize.Height
                         End If
-                    ElseIf Math.Abs(deltaY) < Math.Abs(deltaX) Then
-                        ' Horizontal
-                        commentPosition = New Point(midPoint.X - (textWidth \ 2), midPoint.Y - textHeight - 10)
-                    ElseIf Math.Abs(deltaX) < Math.Abs(deltaY) Then
-                        ' Vertical
-                        commentPosition = New Point(midPoint.X + 10, midPoint.Y - (textHeight \ 2))
-                    End If
+
+                        ' Hitung posisi komentar berdasarkan arah panah
+                        Dim deltaX As Integer = (arrow.EndPoint.X - arrow.StartPoint.X)
+                        Dim deltaY As Integer = (arrow.EndPoint.Y - arrow.StartPoint.Y)
+                        Dim angle As Double = Math.Atan2(deltaY, deltaX)
+                        Dim offsetY As Integer = CInt(20 * Math.Sin(angle))
+                        Dim horizontalPadding As Integer = 30
+
+                        Dim commentPosition As Point
+                        If deltaX > 0 And deltaY < 0 Then
+                            commentPosition = New Point(arrow.EndPoint.X + horizontalPadding, arrow.EndPoint.Y + offsetY) ' jam 12 - 3
+                        ElseIf deltaX < 0 And deltaY < 0 Then
+                            commentPosition = New Point(arrow.EndPoint.X - (CInt(commentWidth) + horizontalPadding), arrow.EndPoint.Y + offsetY)
+                        ElseIf deltaX < 0 And deltaY > 0 Then
+                            commentPosition = New Point(arrow.EndPoint.X - (CInt(commentWidth) + horizontalPadding), arrow.EndPoint.Y - offsetY)
+                        Else
+                            commentPosition = New Point(arrow.EndPoint.X + horizontalPadding, arrow.EndPoint.Y - offsetY) ' jam 3 - 6
+                        End If
+
+                        ' Gambar latar belakang dan teks
+                        Dim commentRect As New RectangleF(commentPosition.X, commentPosition.Y, commentWidth, commentHeight)
+
+                        If commentRect.Right > tempImage.Width Then
+                            commentRect.X = tempImage.Width - commentRect.Width
+                        End If
+
+                        If commentRect.Bottom > tempImage.Height Then
+                            commentRect.Y = tempImage.Height - commentRect.Height
+                        End If
+                        If commentRect.X < 0 Then commentRect.X = 0
+                        If commentRect.Y < 0 Then commentRect.Y = 0
+
+                        g.FillRectangle(backgroundBrush, commentRect)
+                        g.DrawString(arrow.Comment, font, brush, commentRect, stringFormat)
 
 
-                    ' Draw the comment
-                    Dim commentRect As New RectangleF(commentPosition.X, commentPosition.Y, textSize.Width, textSize.Height)
-                    g.FillRectangle(backgroundBrush, commentRect)
-                    g.DrawString(arrow.Comment, font, brush, commentRect)
-
+                    End Using
                 End If
 
             Next

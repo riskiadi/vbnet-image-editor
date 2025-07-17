@@ -13,7 +13,7 @@ Public Class FormComment
         End Set
     End Property
 
-    Private _bgColor As Color = Color.White
+    Private _bgColor As Color = Color.Tomato
     Public Property BgColor As Color
         Get
             Return _bgColor
@@ -54,8 +54,12 @@ Public Class FormComment
     End Property
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Me.DialogResult = DialogResult.OK
-        Me.Close()
+        If String.IsNullOrWhiteSpace(TextBox1.Text) Then
+            MessageBox.Show("Keterangan tidak boleh kosong.", "Add a Comment - Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        Else
+            Me.DialogResult = DialogResult.OK
+            Me.Close()
+        End If
     End Sub
 
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click

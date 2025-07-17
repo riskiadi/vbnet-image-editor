@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "3T/JDi8VAtTTOet10kAneADvy5xxgntQxw2gDSIbwRLroULN6MHqFUWYMibt03gs8M4sj16qMDHlU8kZLgeaoA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ZYREX\\Desktop\\imgedtr\\vbnet-image-editor\\UpdaterImageEditor\\UpdaterImageEditor\\UpdaterImageEditor.vbproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ZYREX\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.6\\microsoft.net.illink.tasks.8.0.6.nupkg.sha512",
+    "C:\\Users\\ZYREX\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\ZYREX\\.nuget\\packages\\ssh.net\\2024.1.0\\ssh.net.2024.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}
