@@ -487,40 +487,43 @@ Public Class Form1
 
         If isDragging Then
             isDragging = False
-            Dim newArrow As New DrawArrow With {
-                .StartPoint = startPoint,
-                .EndPoint = endPoint,
-                .LineWeight = lineWeight,
-                .LineColor = lineColor
-            }
+
 
             ' Tampilkan kotak dialog if checked untuk memasukkan komentar
             If My.Settings.AlwaysAddComment Then
 
+                Dim newArrow As New DrawArrow With {
+                    .StartPoint = startPoint,
+                    .EndPoint = endPoint,
+                    .LineWeight = lineWeight,
+                    .LineColor = lineColor
+                }
                 Dim commentForm As New FormComment()
                 Dim comment As String = String.Empty
                 Dim commentTxtSize As Integer = 10
                 Dim commentTxtColor As Color = Color.Green
                 Dim commentBgColor As Color = Color.Red
 
-                If commentForm.ShowDialog() = DialogResult.OK Then
+                Dim result = commentForm.ShowDialog()
+
+                If result = DialogResult.OK Then
                     comment = commentForm.CommentText
                     commentTxtSize = commentForm.CommentTextSize
                     commentTxtColor = commentForm.TextColor
                     commentBgColor = commentForm.BgColor
-                End If
-
-                If Not String.IsNullOrEmpty(comment) Then
-                    newArrow.Comment = comment
-                    newArrow.CommentTextSize = commentTxtSize
-                    newArrow.CommentTextColor = commentTxtColor
-                    newArrow.CommentBgColor = commentBgColor
+                    If Not String.IsNullOrEmpty(comment) Then
+                        newArrow.Comment = comment
+                        newArrow.CommentTextSize = commentTxtSize
+                        newArrow.CommentTextColor = commentTxtColor
+                        newArrow.CommentBgColor = commentBgColor
+                    End If
+                    arrows.Add(newArrow)
                 End If
 
             End If
 
-            arrows.Add(newArrow)
             RedrawImage()
+
         End If
 
         If isEditingStartPoint OrElse isEditingEndPoint Then
@@ -606,7 +609,7 @@ Public Class Form1
                 .kodeBagian = iniKodeBagian,
                 .userInput = iniUserInput,
                 .compInput = iniCompInput
-             })
+            })
             Dim response = Await formController.PostRmeDataImage(postData)
             If response.Code = 200 Or response.Code = 201 Then
                 MessageBox.Show("Penyimpanan data kedalam database berhasil", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -737,7 +740,7 @@ Public Class Form1
                             Dim deltaY As Integer = (arrow.EndPoint.Y - arrow.StartPoint.Y)
                             Dim angle As Double = Math.Atan2(deltaY, deltaX)
                             Dim offsetY As Integer = CInt(20 * Math.Sin(angle))
-                            Dim horizontalPadding As Integer = 30
+                            Dim horizontalPadding As Integer = 15
 
                             Dim commentPosition As Point
                             If deltaX > 0 And deltaY < 0 Then
@@ -903,7 +906,7 @@ Public Class Form1
                         Dim deltaY As Integer = (arrow.EndPoint.Y - arrow.StartPoint.Y)
                         Dim angle As Double = Math.Atan2(deltaY, deltaX)
                         Dim offsetY As Integer = CInt(20 * Math.Sin(angle))
-                        Dim horizontalPadding As Integer = 30
+                        Dim horizontalPadding As Integer = 15
 
                         Dim commentPosition As Point
                         If deltaX > 0 And deltaY < 0 Then

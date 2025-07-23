@@ -169,11 +169,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ZYREX\\Desktop\\imgedtr\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
+      "projectUniqueName": "C:\\Users\\ZYREX\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
       "projectName": "ImageEditor",
-      "projectPath": "C:\\Users\\ZYREX\\Desktop\\imgedtr\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
+      "projectPath": "C:\\Users\\ZYREX\\Documents\\vbnet-image-editor\\ImageEditor\\ImageEditor.vbproj",
       "packagesPath": "C:\\Users\\ZYREX\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ZYREX\\Desktop\\imgedtr\\vbnet-image-editor\\ImageEditor\\obj\\",
+      "outputPath": "C:\\Users\\ZYREX\\Documents\\vbnet-image-editor\\ImageEditor\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ZYREX\\AppData\\Roaming\\NuGet\\NuGet.Config",

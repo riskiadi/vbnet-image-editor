@@ -132,6 +132,7 @@ Partial Class FormComment
         Controls.Add(TextBox1)
         FormBorderStyle = FormBorderStyle.FixedDialog
         MaximizeBox = False
+        MinimizeBox = False
         Name = "FormComment"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Tambahkan Keterangan"

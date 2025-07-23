@@ -1,4 +1,5 @@
-﻿Imports Newtonsoft.Json.Linq
+﻿Imports System.ComponentModel
+Imports Newtonsoft.Json.Linq
 
 Public Class FormComment
 
@@ -87,5 +88,9 @@ Public Class FormComment
         ComboBox1.Items.AddRange(New Object() {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
         ComboBox1.SelectedIndex = CommentTextSizeIndex
     End Sub
+
+    'Private Sub Window_Closing(sender As Object, e As ComponentModel.CancelEventArgs) Handles Me.Closing
+    '    Me.DialogResult = DialogResult.Abort
+    'End Sub
 
 End Class

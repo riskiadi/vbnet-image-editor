@@ -17,11 +17,11 @@ Imports System.Reflection
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Debug"),  _
  Assembly: System.Reflection.AssemblyCopyrightAttribute("Rizki Adi Saputra"),  _
  Assembly: System.Reflection.AssemblyDescriptionAttribute("Aplikasi untuk pengeditan gambar"),  _
- Assembly: System.Reflection.AssemblyFileVersionAttribute("1.2.1.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5628647d9f98d6fcef92313c9f0b1845dff4c536"),  _
+ Assembly: System.Reflection.AssemblyFileVersionAttribute("1.2.3.0"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ddacbe519468e7e7af6306d0255d1ac815d5c513"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("ImageEditor"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("ImageEditor"),  _
- Assembly: System.Reflection.AssemblyVersionAttribute("1.2.1.0"),  _
+ Assembly: System.Reflection.AssemblyVersionAttribute("1.2.3.0"),  _
  Assembly: System.Resources.NeutralResourcesLanguageAttribute("id"),  _
  Assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0"),  _
  Assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")> 
