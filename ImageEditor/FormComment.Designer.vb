@@ -64,7 +64,7 @@ Partial Class FormComment
         ' 
         ' PictureBox1
         ' 
-        PictureBox1.BackColor = Color.Black
+        PictureBox1.BackColor = Color.White
         PictureBox1.Location = New Point(92, 148)
         PictureBox1.Name = "PictureBox1"
         PictureBox1.Size = New Size(15, 15)
@@ -82,7 +82,7 @@ Partial Class FormComment
         ' 
         ' PictureBox2
         ' 
-        PictureBox2.BackColor = Color.Tomato
+        PictureBox2.BackColor = Color.Black
         PictureBox2.Location = New Point(182, 148)
         PictureBox2.Name = "PictureBox2"
         PictureBox2.Size = New Size(15, 15)

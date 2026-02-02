@@ -1,9 +1,6 @@
-﻿Imports System.ComponentModel
-Imports Newtonsoft.Json.Linq
+﻿Public Class FormComment
 
-Public Class FormComment
-
-    Private _textColor As Color = Color.Black
+    Private _textColor As Color = Color.White
     Public Property TextColor As Color
         Get
             Return _textColor
@@ -14,7 +11,7 @@ Public Class FormComment
         End Set
     End Property
 
-    Private _bgColor As Color = Color.Tomato
+    Private _bgColor As Color = Color.Black
     Public Property BgColor As Color
         Get
             Return _bgColor
@@ -44,13 +41,23 @@ Public Class FormComment
         End Set
     End Property
 
-    Private _commentTextSizeIndex = 2
+    Private _commentTextSizeIndex = 4
     Public Property CommentTextSizeIndex As Integer
         Get
             Return _commentTextSizeIndex
         End Get
         Set(value As Integer)
             _commentTextSizeIndex = value
+        End Set
+    End Property
+
+    Private _commentStyle = FontStyle.Bold
+    Public Property CommentStyle As FontStyle
+        Get
+            Return _commentStyle
+        End Get
+        Set(value As FontStyle)
+            _commentStyle = value
         End Set
     End Property
 
@@ -86,11 +93,9 @@ Public Class FormComment
 
     Private Sub FormComment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ComboBox1.Items.AddRange(New Object() {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
-        ComboBox1.SelectedIndex = CommentTextSizeIndex
+        ComboBox1.SelectedIndex = _commentTextSizeIndex
+        PictureBox1.BackColor = _textColor
+        PictureBox2.BackColor = _bgColor
     End Sub
-
-    'Private Sub Window_Closing(sender As Object, e As ComponentModel.CancelEventArgs) Handles Me.Closing
-    '    Me.DialogResult = DialogResult.Abort
-    'End Sub
 
 End Class

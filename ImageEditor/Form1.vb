@@ -4,13 +4,13 @@ Imports System.Reflection
 Imports System.IO
 Imports Newtonsoft.Json
 Imports System.Runtime.InteropServices
+Imports System.ComponentModel
 
 Public Class Form1
 
-    '[config]
-    'TemplatePath = \\10.10.7.12\shareimages\sitemarking\template
-    'TemplateName = GIGI (PALMER SYSTEM).jpg
-
+    '[config .ini file]
+    'TemplatePath=\\10.10.7.12\shareimages\sitemarking\template\
+    'TemplateName=TUBUH.jpg
     'NamaTabel = RME_IMAGES
     'FilePath = \\10.10.7.12\shareimages\sitemarking\
     'FileName = uploaded.jpg
@@ -19,9 +19,11 @@ Public Class Form1
     'KodeDoc = EROP-1
     'NoReg = 1234567890
     'NoPasien = 665566
+    'NamaPasien = test
     'KodeBagian = 9301
     'UserInput = ADMIN
     'CompInput = MSI
+    'Type=NEW
 
     ' Deklarasi fungsi API
     <DllImport("user32.dll", SetLastError:=True)>
@@ -46,6 +48,7 @@ Public Class Form1
     Private ReadOnly formController As FormController
     Dim parser As New FileIniDataParser()
 
+
     Dim iniTemplatePath = ""
     Dim iniTemplateName = ""
     Dim iniNamaTabel = ""
@@ -56,9 +59,11 @@ Public Class Form1
     Dim iniKodeDoc = ""
     Dim iniNoReg = ""
     Dim iniNoPasien = ""
+    Dim iniNamaPasien = ""
     Dim iniKodeBagian = ""
     Dim iniUserInput = ""
     Dim iniCompInput = ""
+    Dim iniType = ""
 
     Dim appVersion = Assembly.GetExecutingAssembly().GetName().Version
 
@@ -106,6 +111,8 @@ Public Class Form1
 
             If Not File.Exists(iniPath) Then
                 Try
+
+
                     Using writer As New StreamWriter($"{basePath}\ImageEditor.ini")
                         writer.WriteLine("[config]")
                         writer.WriteLine("TemplatePath=\\10.10.7.12\shareimages\sitemarking\template")
@@ -118,9 +125,11 @@ Public Class Form1
                         writer.WriteLine("KodeDoc=0")
                         writer.WriteLine("NoReg=0")
                         writer.WriteLine("NoPasien=0")
+                        writer.WriteLine("NamaPasien=0")
                         writer.WriteLine("KodeBagian=0")
                         writer.WriteLine("UserInput=0")
                         writer.WriteLine("CompInput=0")
+                        writer.WriteLine("Type=NEW")
                     End Using
                 Catch ex As Exception
                     MessageBox.Show("Error, tidak dapat membuat file .ini: " & ex.Message)
@@ -138,9 +147,12 @@ Public Class Form1
             iniKodeDoc = dataIni("config")("KodeDoc")
             iniNoReg = dataIni("config")("NoReg")
             iniNoPasien = dataIni("config")("NoPasien")
+            iniNamaPasien = dataIni("config")("NamaPasien")
             iniKodeBagian = dataIni("config")("KodeBagian")
             iniUserInput = dataIni("config")("UserInput")
             iniCompInput = dataIni("config")("CompInput")
+            iniType = dataIni("config")("Type")
+
         Catch ex As Exception
             MessageBox.Show("File ImageEditor.INI error atau tidak ditemukan.", "Image Editor RME - Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Close()
@@ -159,6 +171,7 @@ Public Class Form1
         Public CommentTextColor As Color
         Public CommentTextSize As Integer
         Public CommentBgColor As Color
+        Public CommentStyle As FontStyle
     End Structure
 
     Public Structure DrawText
@@ -174,13 +187,17 @@ Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Me.Text = $"Site Marking RME - RSUD dr Adhyatma MPH  (v.{appVersion.Major}.{appVersion.Minor}.{appVersion.Build})"
+        LabelNamaPasien.Text = iniNamaPasien
+        LabelNoPasien.Text = iniNoPasien
+        LabelUserInput.Text = iniUserInput
+
 
         CheckBox1.Checked = My.Settings.AlwaysAddComment
 
         AddHandler redrawTimer.Tick, AddressOf redrawTimer_Tick
 
         ComboBox1.Items.AddRange(New Object() {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25})
-        ComboBox1.SelectedIndex = 10
+        ComboBox1.SelectedIndex = 9
         lineWeight = CInt(ComboBox1.SelectedItem)
         PictureBox2.BackColor = lineColor
 
@@ -488,7 +505,6 @@ Public Class Form1
         If isDragging Then
             isDragging = False
 
-
             ' Tampilkan kotak dialog if checked untuk memasukkan komentar
             If My.Settings.AlwaysAddComment Then
 
@@ -500,9 +516,10 @@ Public Class Form1
                 }
                 Dim commentForm As New FormComment()
                 Dim comment As String = String.Empty
-                Dim commentTxtSize As Integer = 10
+                Dim commentTxtSize As Integer = 12
                 Dim commentTxtColor As Color = Color.Green
                 Dim commentBgColor As Color = Color.Red
+                Dim commentStyle As FontStyle = FontStyle.Bold
 
                 Dim result = commentForm.ShowDialog()
 
@@ -511,11 +528,13 @@ Public Class Form1
                     commentTxtSize = commentForm.CommentTextSize
                     commentTxtColor = commentForm.TextColor
                     commentBgColor = commentForm.BgColor
+                    commentStyle = commentForm.CommentStyle
                     If Not String.IsNullOrEmpty(comment) Then
                         newArrow.Comment = comment
                         newArrow.CommentTextSize = commentTxtSize
                         newArrow.CommentTextColor = commentTxtColor
                         newArrow.CommentBgColor = commentBgColor
+                        newArrow.CommentStyle = commentStyle
                     End If
                     arrows.Add(newArrow)
                 End If
@@ -612,10 +631,12 @@ Public Class Form1
             })
             Dim response = Await formController.PostRmeDataImage(postData)
             If response.Code = 200 Or response.Code = 201 Then
-                MessageBox.Show("Penyimpanan data kedalam database berhasil", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("Site marking tindakan berhasil disimpan", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                MessageBox.Show($"Penyimpanan data kedalam database gagal, {response.Message }", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show($"Site marking gagal disimpan, {response.Message }", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
+            arrows.Clear()
+            texts.Clear()
             Close()
         Catch ex As Exception
             MessageBox.Show($"Proses menyimpan file gagal: {ex.Message }", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -709,7 +730,7 @@ Public Class Form1
 
                     If Not String.IsNullOrEmpty(arrow.Comment) Then
 
-                        Using font As New Font("Arial", arrow.CommentTextSize, FontStyle.Regular),
+                        Using font As New Font("Arial", arrow.CommentTextSize, arrow.CommentStyle),
                           brush As New SolidBrush(arrow.CommentTextColor),
                           backgroundBrush As New SolidBrush(Color.FromArgb(200, arrow.CommentBgColor))
 
@@ -875,7 +896,7 @@ Public Class Form1
                 ' Draw comment near the line
                 If Not String.IsNullOrEmpty(arrow.Comment) Then
 
-                    Using font As New Font("Arial", arrow.CommentTextSize, FontStyle.Regular),
+                    Using font As New Font("Arial", arrow.CommentTextSize, arrow.CommentStyle),
                           brush As New SolidBrush(arrow.CommentTextColor),
                           backgroundBrush As New SolidBrush(Color.FromArgb(200, arrow.CommentBgColor))
 
@@ -1071,6 +1092,31 @@ Public Class Form1
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         My.Settings.AlwaysAddComment = CheckBox1.Checked
         My.Settings.Save()
+    End Sub
+
+    Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
+
+        If Not arrows.Count = 0 Or Not texts.Count = 0 Then
+
+
+            Dim result = MessageBox.Show(
+                "Gambar belum disimpan." & vbCrLf & "Apakah Anda ingin keluar?",
+                "Konfirmasi",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning)
+
+            Select Case result
+                Case DialogResult.Yes
+
+                Case DialogResult.No
+                    e.Cancel = True
+            End Select
+
+
+        End If
+
+
+
     End Sub
 
 End Class
